@@ -1,0 +1,105 @@
+@extends('layouts.app')
+
+@section('title', 'Portfolio — BuildCares')
+@section('description', 'Browse our architectural drawing portfolio — garage conversions, loft conversions, extensions, new builds and more.')
+
+@section('content')
+
+{{-- Page Header --}}
+<section class="relative pt-40 pb-20 overflow-hidden" style="background-color:#0f172a;">
+    <div class="absolute inset-0 opacity-[0.06] pointer-events-none">
+        <svg class="w-full h-full" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <pattern id="pg" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563eb" stroke-width="0.6"/></pattern>
+                <pattern id="pg-lg" width="200" height="200" patternUnits="userSpaceOnUse"><path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2563eb" stroke-width="1"/></pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#pg)"/>
+            <rect width="100%" height="100%" fill="url(#pg-lg)"/>
+        </svg>
+    </div>
+    <div class="absolute top-0 left-0 w-1 h-full" style="background-color:#2563eb;"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-px" style="background:linear-gradient(to right, rgba(37,99,235,0.5), rgba(37,99,235,0.1), transparent);"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+        <div class="section-label">Our Work</div>
+        <h1 class="section-title-light">Portfolio</h1>
+        <p style="color:#64748b;" class="max-w-xl">Explore our range of architectural drawing projects — from planning submissions to building control packages across the UK.</p>
+    </div>
+</section>
+
+{{-- Filter Tabs --}}
+<section class="bg-white sticky top-[72px] z-40 border-b shadow-sm" style="border-color:#e2e8f0;">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap gap-2">
+        <a href="{{ route('portfolio.index') }}" class="filter-tab {{ !$category || $category === 'all' ? 'active' : '' }}">All</a>
+        @foreach($categories as $key => $label)
+        <a href="{{ route('portfolio.index', ['category' => $key]) }}" class="filter-tab {{ $category === $key ? 'active' : '' }}">{{ $label }}</a>
+        @endforeach
+    </div>
+</section>
+
+{{-- Portfolio Grid --}}
+<section class="section-padding" style="background-color:#f8fafc;">
+    <div class="max-w-7xl mx-auto px-6">
+
+        @if($portfolioItems->count())
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="portfolio-grid">
+            @foreach($portfolioItems as $i => $item)
+            <a href="{{ route('portfolio.show', $item->slug) }}"
+               class="portfolio-card reveal group {{ $i === 0 || $i === 3 ? 'sm:col-span-2 sm:row-span-1' : '' }}"
+               style="animation-delay:{{ ($i % 8) * 0.08 }}s; {{ $i === 0 || $i === 3 ? 'aspect-ratio:16/9' : '' }}">
+                <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}" loading="lazy">
+                <div class="overlay">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs px-2 py-0.5 font-bold uppercase tracking-wider" style="background:rgba(37,99,235,0.2); color:#93c5fd; border:1px solid rgba(37,99,235,0.35);">{{ $item->category_label }}</span>
+                        @if($item->year)<span class="text-xs" style="color:#64748b;">{{ $item->year }}</span>@endif
+                    </div>
+                    <h3 class="text-white font-bold text-base leading-tight">{{ $item->title }}</h3>
+                    @if($item->location)
+                    <span class="text-xs mt-1 flex items-center gap-1" style="color:#64748b;">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                        {{ $item->location }}
+                    </span>
+                    @endif
+                    <div class="mt-3 flex items-center gap-1 text-xs font-bold uppercase tracking-wider" style="color:#60a5fa;">
+                        View Project <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+        </div>
+
+        @if($portfolioItems->hasPages())
+        <div class="mt-14 flex justify-center">{{ $portfolioItems->appends(request()->query())->links() }}</div>
+        @endif
+
+        @else
+        <div class="text-center py-24">
+            <div class="w-20 h-20 flex items-center justify-center mx-auto mb-6" style="background:#eff6ff; border:1px solid #dbeafe;">
+                <svg class="w-10 h-10" style="color:#93c5fd;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-2 uppercase" style="color:#0f172a;">No projects yet</h3>
+            <p class="text-sm mb-6" style="color:#64748b;">
+                @if($category && $category !== 'all')
+                    No projects in this category. <a href="{{ route('portfolio.index') }}" class="font-bold hover:underline" style="color:#2563eb;">View all</a>
+                @else
+                    Portfolio items will appear here once added via the admin panel.
+                @endif
+            </p>
+            <a href="{{ route('admin.portfolio.create') }}" class="btn-gold text-sm">Add Portfolio Item</a>
+        </div>
+        @endif
+    </div>
+</section>
+
+{{-- CTA --}}
+<section class="py-16" style="background-color:#0f172a; border-top:2px solid #2563eb;">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+        <h2 class="font-bold text-2xl mb-4" style="color:#f8fafc;">Like What You See?</h2>
+        <p class="mb-8" style="color:#64748b;">Let's work together on your next project. Get in touch for a free consultation.</p>
+        <a href="{{ route('contact') }}" class="btn-gold">Start Your Project</a>
+    </div>
+</section>
+
+@endsection
