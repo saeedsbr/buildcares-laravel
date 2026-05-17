@@ -52,6 +52,15 @@
                     </div>
                     <div class="flex items-start gap-4 bg-white p-4 border" style="border-color:#e2e8f0; border-left:2px solid #2563eb;">
                         <div class="w-9 h-9 flex items-center justify-center flex-shrink-0" style="background:#eff6ff;">
+                            <svg class="w-4 h-4" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#94a3b8;">Phone</div>
+                            <a href="tel:+447586750755" class="text-sm font-semibold transition-colors hover:text-blue-600" style="color:#1e293b;">+44 7586 750755</a>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 bg-white p-4 border" style="border-color:#e2e8f0; border-left:2px solid #2563eb;">
+                        <div class="w-9 h-9 flex items-center justify-center flex-shrink-0" style="background:#eff6ff;">
                             <svg class="w-4 h-4" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                         </div>
                         <div>

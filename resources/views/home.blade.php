@@ -3,22 +3,21 @@
 @section('content')
 
 {{-- ═══ HERO ═══ --}}
-<section class="relative min-h-screen flex items-center overflow-hidden" style="background-color:#0f172a;">
+<section class="relative min-h-screen flex items-center overflow-hidden" style="background-color:#f0f7ff;">
     <div class="absolute inset-0 z-0 pointer-events-none">
-        <svg class="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <svg class="absolute inset-0 w-full h-full opacity-[0.05]" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
             <defs>
                 <pattern id="grid-sm" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#60a5fa" stroke-width="0.4"/>
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563eb" stroke-width="0.5"/>
                 </pattern>
                 <pattern id="grid-lg" width="200" height="200" patternUnits="userSpaceOnUse">
-                    <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#60a5fa" stroke-width="1"/>
+                    <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2563eb" stroke-width="1"/>
                 </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid-sm)"/>
             <rect width="100%" height="100%" fill="url(#grid-lg)"/>
         </svg>
-        <div class="absolute top-0 right-0 w-[800px] h-[800px] pointer-events-none" style="background:radial-gradient(circle at 70% 20%, rgba(37,99,235,0.18) 0%, transparent 65%);"></div>
-        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] pointer-events-none" style="background:radial-gradient(circle at 30% 80%, rgba(37,99,235,0.08) 0%, transparent 65%);"></div>
+        <div class="absolute top-0 right-0 w-[900px] h-[900px] pointer-events-none" style="background:radial-gradient(circle at 75% 30%, rgba(37,99,235,0.07) 0%, transparent 65%);"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6 pt-36 pb-24 w-full">
@@ -29,13 +28,13 @@
                     Freelance-Based Subcontractor
                 </div>
 
-                <h1 class="animate-fadeInUp" style="animation-delay:0.2s; font-family:'DM Sans',sans-serif; font-size:clamp(2.75rem,5.5vw,4.5rem); font-weight:800; line-height:1.08; letter-spacing:-0.02em; color:#f8fafc; margin-bottom:1.5rem;">
-                    Precision Drawings.<br>
-                    <span style="color:#3b82f6;">Planning Approved.</span>
+                <h1 class="animate-fadeInUp" style="animation-delay:0.2s; font-family:'DM Sans',sans-serif; font-size:clamp(2.75rem,5.5vw,4.5rem); font-weight:800; line-height:1.08; letter-spacing:-0.02em; color:#0f172a; margin-bottom:1.5rem;">
+                    Thoughtful Design,<br>
+                    <span style="color:#2563eb;">Lasting Care.</span>
                 </h1>
 
-                <p class="text-lg leading-relaxed max-w-md mb-10 animate-fadeInUp" style="animation-delay:0.3s; color:#94a3b8;">
-                    Architectural drawings and CAD services for UK construction. From planning applications to building control — delivered in 3–5 days.
+                <p class="text-lg leading-relaxed max-w-md mb-10 animate-fadeInUp" style="animation-delay:0.3s; color:#64748b;">
+                    Precision architectural drawings and CAD services for UK construction. From planning applications to building control — we deliver quality that gets approved.
                 </p>
 
                 <div class="flex flex-wrap gap-4 animate-fadeInUp" style="animation-delay:0.4s">
@@ -43,30 +42,30 @@
                         View Our Work
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
-                    <a href="{{ route('contact') }}" class="btn-outline-gold-dark">Get a Quote</a>
+                    <a href="{{ route('contact') }}" class="btn-outline-gold">Get a Quote</a>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-6 mt-12 animate-fadeInUp" style="animation-delay:0.5s">
                     @foreach(['Planning Approved','3–5 Day Turnaround','UK Standards'] as $badge)
                     <div class="flex items-center gap-2 text-sm" style="color:#64748b;">
-                        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:#2563eb;"></span>
+                        <svg class="w-4 h-4 flex-shrink-0" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                         {{ $badge }}
                     </div>
                     @endforeach
                 </div>
             </div>
 
-            {{-- Blueprint card — dark --}}
+            {{-- Blueprint card — light --}}
             <div class="relative hidden lg:block animate-fadeInUp" style="animation-delay:0.35s">
                 <div class="animate-float">
-                    <div class="border" style="background:rgba(30,41,59,0.8); border-color:rgba(37,99,235,0.25); backdrop-filter:blur(12px);">
-                        <div class="p-1.5">
-                            <div class="aspect-[4/3] flex items-center justify-center relative overflow-hidden" style="background:#080f1e;">
+                    <div class="border shadow-xl" style="background:#ffffff; border-color:#dbeafe;">
+                        <div class="p-2">
+                            <div class="aspect-[4/3] flex items-center justify-center relative overflow-hidden" style="background:#f0f7ff;">
                                 <svg viewBox="0 0 400 300" class="w-full h-full" fill="none">
-                                    <rect width="400" height="300" fill="#080f1e"/>
+                                    <rect width="400" height="300" fill="#f0f7ff"/>
                                     <defs>
                                         <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8"/>
+                                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#dbeafe" stroke-width="0.8"/>
                                         </pattern>
                                     </defs>
                                     <rect width="400" height="300" fill="url(#bp-grid)"/>
@@ -82,33 +81,33 @@
                                         <rect x="235" y="140" width="40" height="35" stroke="#60a5fa" stroke-width="1"/>
                                         <line x1="255" y1="140" x2="255" y2="175" stroke="#60a5fa" stroke-width="0.6"/>
                                         <line x1="235" y1="157" x2="275" y2="157" stroke="#60a5fa" stroke-width="0.6"/>
-                                        <line x1="75" y1="120" x2="75" y2="250" stroke="#1e3a8a" stroke-width="0.5" stroke-dasharray="3,2"/>
-                                        <line x1="70" y1="120" x2="80" y2="120" stroke="#1e3a8a" stroke-width="0.5"/>
-                                        <line x1="70" y1="250" x2="80" y2="250" stroke="#1e3a8a" stroke-width="0.5"/>
-                                        <line x1="110" y1="270" x2="290" y2="270" stroke="#1e3a8a" stroke-width="0.5" stroke-dasharray="3,2"/>
-                                        <line x1="110" y1="265" x2="110" y2="275" stroke="#1e3a8a" stroke-width="0.5"/>
-                                        <line x1="290" y1="265" x2="290" y2="275" stroke="#1e3a8a" stroke-width="0.5"/>
+                                        <line x1="75" y1="120" x2="75" y2="250" stroke="#93c5fd" stroke-width="0.5" stroke-dasharray="3,2"/>
+                                        <line x1="70" y1="120" x2="80" y2="120" stroke="#93c5fd" stroke-width="0.5"/>
+                                        <line x1="70" y1="250" x2="80" y2="250" stroke="#93c5fd" stroke-width="0.5"/>
+                                        <line x1="110" y1="270" x2="290" y2="270" stroke="#93c5fd" stroke-width="0.5" stroke-dasharray="3,2"/>
+                                        <line x1="110" y1="265" x2="110" y2="275" stroke="#93c5fd" stroke-width="0.5"/>
+                                        <line x1="290" y1="265" x2="290" y2="275" stroke="#93c5fd" stroke-width="0.5"/>
                                     </g>
-                                    <text x="48" y="188" fill="#334155" font-size="8" text-anchor="middle" transform="rotate(-90,48,188)">4.2m</text>
-                                    <text x="200" y="285" fill="#334155" font-size="8" text-anchor="middle">6.0m</text>
-                                    <text x="200" y="25" fill="#3b82f6" font-size="9" text-anchor="middle" font-weight="bold">FRONT ELEVATION</text>
+                                    <text x="48" y="188" fill="#93c5fd" font-size="8" text-anchor="middle" transform="rotate(-90,48,188)">4.2m</text>
+                                    <text x="200" y="285" fill="#93c5fd" font-size="8" text-anchor="middle">6.0m</text>
+                                    <text x="200" y="25" fill="#2563eb" font-size="9" text-anchor="middle" font-weight="bold">FRONT ELEVATION</text>
                                     <text x="330" y="15" fill="#60a5fa" font-size="7" text-anchor="middle">BuildCares</text>
-                                    <text x="330" y="25" fill="#334155" font-size="6" text-anchor="middle">Drawing No: BC-001</text>
+                                    <text x="330" y="25" fill="#93c5fd" font-size="6" text-anchor="middle">Drawing No: BC-001</text>
                                 </svg>
-                                <div class="absolute top-3 left-3 w-5 h-5 border-l border-t" style="border-color:rgba(37,99,235,0.5);"></div>
-                                <div class="absolute top-3 right-3 w-5 h-5 border-r border-t" style="border-color:rgba(37,99,235,0.5);"></div>
-                                <div class="absolute bottom-3 left-3 w-5 h-5 border-l border-b" style="border-color:rgba(37,99,235,0.5);"></div>
-                                <div class="absolute bottom-3 right-3 w-5 h-5 border-r border-b" style="border-color:rgba(37,99,235,0.5);"></div>
+                                <div class="absolute top-3 left-3 w-5 h-5 border-l border-t" style="border-color:#bfdbfe;"></div>
+                                <div class="absolute top-3 right-3 w-5 h-5 border-r border-t" style="border-color:#bfdbfe;"></div>
+                                <div class="absolute bottom-3 left-3 w-5 h-5 border-l border-b" style="border-color:#bfdbfe;"></div>
+                                <div class="absolute bottom-3 right-3 w-5 h-5 border-r border-b" style="border-color:#bfdbfe;"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="absolute -top-4 -right-4 px-4 py-3 text-sm font-semibold flex items-center gap-2 border" style="background:rgba(15,23,42,0.98); border-color:rgba(37,99,235,0.4); color:#93c5fd;">
+                    <div class="absolute -top-4 -right-4 px-4 py-3 text-sm font-semibold flex items-center gap-2 shadow-lg border" style="background:#ffffff; border-color:#dbeafe; color:#1e293b;">
                         <svg class="w-4 h-4" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                         Planning Approved
                     </div>
-                    <div class="absolute -bottom-4 -left-4 px-4 py-3 border" style="background:rgba(15,23,42,0.98); border-color:rgba(37,99,235,0.4);">
-                        <div class="text-xs uppercase tracking-wider font-bold" style="color:#475569;">Turnaround</div>
-                        <div class="font-bold text-xl" style="color:#3b82f6;">3–5 Days</div>
+                    <div class="absolute -bottom-4 -left-4 px-4 py-3 shadow-lg border" style="background:#ffffff; border-color:#dbeafe;">
+                        <div class="text-xs uppercase tracking-wider font-bold" style="color:#94a3b8;">Turnaround</div>
+                        <div class="font-bold text-xl" style="color:#2563eb;">3–5 Days</div>
                     </div>
                 </div>
             </div>
@@ -116,7 +115,7 @@
     </div>
 
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-        <span class="text-xs tracking-widest uppercase" style="color:#334155;">Scroll</span>
+        <span class="text-xs tracking-widest uppercase" style="color:#94a3b8;">Scroll</span>
         <svg class="w-4 h-4" style="color:#2563eb;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
     </div>
 </section>
