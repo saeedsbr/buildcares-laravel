@@ -133,29 +133,29 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px" style="background-color:#e2e8f0;">
             @php
             $services = [
-                ['icon'=>'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6','title'=>'Garage Conversion','desc'=>'Transform your garage into valuable living space with detailed planning and building control drawings.','slug'=>'garage-conversion'],
-                ['icon'=>'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4','title'=>'Loft Conversion','desc'=>'Unlock your loft\'s potential with dormer or hip-to-gable conversions, fully drawn to approval standard.','slug'=>'loft-conversion'],
-                ['icon'=>'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z','title'=>'Extensions','desc'=>'Single, double or wrap-around extensions designed to maximise space and comply with planning regulations.','slug'=>'extension'],
-                ['icon'=>'M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z','title'=>'New Build','desc'=>'Complete architectural packages for new residential builds from concept through to planning submission.','slug'=>'new-build'],
-                ['icon'=>'M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z','title'=>'Outbuilding','desc'=>'Garden rooms, home offices, studios and annexes — full drawings for permitted development or planning.','slug'=>'outbuilding'],
-                ['icon'=>'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7','title'=>'Internal Changes','desc'=>'Structural internal alterations, wall removals and reconfigurations with precise building control drawings.','slug'=>'internal-changes'],
+                ['img'=>'portfolio/cat-garage-conversion.jpg','title'=>'Garage Conversion','desc'=>'Transform your garage into valuable living space with detailed planning and building control drawings.','slug'=>'garage-conversion'],
+                ['img'=>'portfolio/cat-loft-conversion.jpg','title'=>'Loft Conversion','desc'=>'Unlock your loft\'s potential with dormer or hip-to-gable conversions, fully drawn to approval standard.','slug'=>'loft-conversion'],
+                ['img'=>'portfolio/cat-extension.jpg','title'=>'Extensions','desc'=>'Single, double or wrap-around extensions designed to maximise space and comply with planning regulations.','slug'=>'extension'],
+                ['img'=>'portfolio/cat-new-build.jpg','title'=>'New Build','desc'=>'Complete architectural packages for new residential builds from concept through to planning submission.','slug'=>'new-build'],
+                ['img'=>'portfolio/cat-outbuilding.jpg','title'=>'Outbuilding','desc'=>'Garden rooms, home offices, studios and annexes — full drawings for permitted development or planning.','slug'=>'outbuilding'],
+                ['img'=>'portfolio/cat-internal-changes.jpg','title'=>'Internal Changes','desc'=>'Structural internal alterations, wall removals and reconfigurations with precise building control drawings.','slug'=>'internal-changes'],
             ];
             @endphp
 
             @foreach($services as $i => $svc)
-            <div class="p-8 group reveal bg-white" style="animation-delay:{{ $i * 0.07 }}s; transition:background 0.25s ease;">
-                <div class="w-11 h-11 flex items-center justify-center mb-5 transition-all group-hover:scale-110" style="background:#eff6ff; border:1px solid #dbeafe;">
-                    <svg class="w-5 h-5" style="color:#2563eb;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $svc['icon'] }}"/>
-                    </svg>
+            <a href="{{ route('portfolio.index', ['category' => $svc['slug']]) }}" class="group reveal bg-white block overflow-hidden" style="animation-delay:{{ $i * 0.07 }}s;">
+                <div class="overflow-hidden" style="height:200px;">
+                    <img src="{{ Storage::url($svc['img']) }}" alt="{{ $svc['title'] }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
-                <h3 class="font-bold text-base mb-2" style="color:#0f172a;">{{ $svc['title'] }}</h3>
-                <p class="text-sm leading-relaxed mb-5" style="color:#64748b;">{{ $svc['desc'] }}</p>
-                <a href="{{ route('portfolio.index', ['category' => $svc['slug']]) }}" class="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all" style="color:#2563eb;">
-                    View Projects
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                </a>
-            </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-base mb-2" style="color:#0f172a;">{{ $svc['title'] }}</h3>
+                    <p class="text-sm leading-relaxed mb-4" style="color:#64748b;">{{ $svc['desc'] }}</p>
+                    <span class="text-xs font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all" style="color:#2563eb;">
+                        View Projects
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </span>
+                </div>
+            </a>
             @endforeach
         </div>
     </div>
