@@ -1,0 +1,14 @@
+.env
+.env.*
+node_modules
+.git
+.gitignore
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+bootstrap/cache/*
+tests
+README.md
+docker-compose*.yml
+*.md
