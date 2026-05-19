@@ -55,8 +55,10 @@ COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 # Supervisor config
 COPY docker/supervisord.conf /etc/supervisord.conf
 
-# PHP-FPM pool config (force TCP 127.0.0.1:9000)
+# PHP-FPM pool config (unix socket, overrides default TCP config)
 COPY docker/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+# Remove zz-docker.conf which overrides listen back to TCP 9000
+RUN rm -f /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # PHP opcache config
 RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini \
