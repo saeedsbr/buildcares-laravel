@@ -10,24 +10,115 @@ class PortfolioSeeder extends Seeder
 {
     public function run(): void
     {
+        PortfolioItem::truncate();
+
         $items = [
-            ['title'=>'Hillside Garage Conversion','category'=>'garage-conversion','location'=>'Birmingham, UK','year'=>2024,'description'=>'Double garage converted into a spacious open-plan living area with full planning and building control drawings.','featured'=>true,'sort_order'=>1],
-            ['title'=>'Victorian Loft Conversion','category'=>'loft-conversion','location'=>'Manchester, UK','year'=>2024,'description'=>'Hip-to-gable loft conversion on a 1930s semi-detached home. Full structural drawings and planning submission package.','featured'=>true,'sort_order'=>2],
-            ['title'=>'Single Storey Rear Extension','category'=>'extension','location'=>'London, UK','year'=>2023,'description'=>'6m single storey rear extension with roof lantern and bifold doors. Permitted development drawings.','featured'=>true,'sort_order'=>3],
-            ['title'=>'Detached New Build 4-Bed','category'=>'new-build','location'=>'Leeds, UK','year'=>2023,'description'=>'Complete architectural drawing package for a detached 4-bedroom property from planning through to building regs.','featured'=>true,'sort_order'=>4],
-            ['title'=>'Garden Office Outbuilding','category'=>'outbuilding','location'=>'Bristol, UK','year'=>2024,'description'=>'Insulated garden studio with mezzanine, full drawing set for planning application.','featured'=>true,'sort_order'=>5],
-            ['title'=>'Open Plan Kitchen Conversion','category'=>'internal-changes','location'=>'Sheffield, UK','year'=>2023,'description'=>'Load-bearing wall removal and internal reconfigurations with full building control drawings.','featured'=>true,'sort_order'=>6],
-            ['title'=>'Attached Garage Extension','category'=>'garage-conversion','location'=>'Nottingham, UK','year'=>2023,'description'=>'Single garage conversion to utility room and study. Building control drawings.','featured'=>false,'sort_order'=>7],
-            ['title'=>'Dormer Loft Conversion','category'=>'loft-conversion','location'=>'Liverpool, UK','year'=>2024,'description'=>'Full-width rear dormer with 2 bedrooms and en-suite bathroom. Planning and building control package.','featured'=>false,'sort_order'=>8],
-            ['title'=>'Wrap-Around Extension','category'=>'extension','location'=>'Oxford, UK','year'=>2024,'description'=>'Combined rear and side extension creating a large open-plan kitchen diner.','featured'=>false,'sort_order'=>9],
+
+            // NEW BUILD
+            [
+                'title'       => 'New Build House',
+                'category'    => 'new-build',
+                'location'    => 'UK',
+                'year'        => 2024,
+                'description' => 'A two-storey new build residential property featuring an open-plan ground floor with reception, kitchen/dining and living areas, WC and cycle store, plus a first floor with three bedrooms and bathroom. The design incorporates a contemporary flat roof detail to the rear.',
+                'tags'        => ['new-build', 'two-storey', 'flat-roof', 'planning'],
+                'featured'    => true,
+                'sort_order'  => 1,
+            ],
+
+            // LOFT CONVERSIONS
+            [
+                'title'       => 'Loft Conversion with Flat Roof Dormer',
+                'category'    => 'loft-conversion',
+                'location'    => 'UK',
+                'year'        => 2024,
+                'description' => 'Full loft conversion on a two-storey semi-detached house, creating a new master bedroom with en-suite and generous eaves storage. The rear dormer features a flat roof design with large glazing to maximise natural light into the new loft space.',
+                'tags'        => ['loft-conversion', 'dormer', 'ensuite', 'flat-roof'],
+                'featured'    => true,
+                'sort_order'  => 2,
+            ],
+            [
+                'title'       => 'Loft Conversion with Rear Dormer',
+                'category'    => 'loft-conversion',
+                'location'    => 'UK',
+                'year'        => 2023,
+                'description' => 'Loft conversion adding a spacious bedroom with en-suite bathroom and built-in eaves storage to an existing three-bedroom family home. The rear dormer blends sympathetically with the existing roof profile while maximising headroom and usable floor area.',
+                'tags'        => ['loft-conversion', 'dormer', 'ensuite', 'eaves-storage'],
+                'featured'    => false,
+                'sort_order'  => 3,
+            ],
+            [
+                'title'       => 'Single Storey Rear Extension & Loft Conversion',
+                'category'    => 'loft-conversion',
+                'location'    => 'UK',
+                'year'        => 2026,
+                'description' => 'Combined project delivering a single storey rear extension to enlarge the kitchen/sitting area alongside a full loft conversion to create additional bedroom accommodation. The scheme transforms a modest bungalow into a spacious family home, with full planning drawings produced in Revit.',
+                'tags'        => ['loft-conversion', 'extension', 'combined', 'bungalow', 'revit'],
+                'featured'    => true,
+                'sort_order'  => 4,
+            ],
+
+            // EXTENSIONS
+            [
+                'title'       => 'Double Storey Side Extension',
+                'category'    => 'extension',
+                'location'    => 'UK',
+                'year'        => 2024,
+                'description' => 'Substantial double storey side extension expanding an existing detached property to five bedrooms each with en-suite, plus a study and balcony. The ground floor gains a large kitchen/breakfast room and dining/sitting room. All four elevations fully redesigned for a cohesive architect-designed appearance.',
+                'tags'        => ['extension', 'double-storey', 'side', '5-bedroom', 'balcony', 'ensuite'],
+                'featured'    => true,
+                'sort_order'  => 5,
+            ],
+            [
+                'title'       => 'Double Storey Rear Extension',
+                'category'    => 'extension',
+                'location'    => 'UK',
+                'year'        => 2025,
+                'description' => 'Double storey rear extension to a semi-detached property, extending the ground floor kitchen and living accommodation and adding a new bedroom and shower room at first floor level. Full existing and proposed floor plans and elevations produced in Revit.',
+                'tags'        => ['extension', 'double-storey', 'rear', 'revit'],
+                'featured'    => false,
+                'sort_order'  => 6,
+            ],
+            [
+                'title'       => 'Single Storey Extension with Crown Roof',
+                'category'    => 'extension',
+                'location'    => 'UK',
+                'year'        => 2025,
+                'description' => 'Single storey rear extension featuring a distinctive crown roof design, converting the existing garage footprint into a bright open-plan kitchen, reception and living space. Full planning drawings produced in Revit including 3D views of the existing and proposed scheme.',
+                'tags'        => ['extension', 'single-storey', 'crown-roof', 'revit', '3d'],
+                'featured'    => false,
+                'sort_order'  => 7,
+            ],
+            [
+                'title'       => 'Single Storey Rear Extension',
+                'category'    => 'extension',
+                'location'    => 'UK',
+                'year'        => 2025,
+                'description' => 'Single storey rear extension to a two-storey terraced property, creating a new open-plan study room and dining room. Full planning package produced in Revit including existing and proposed floor plans and all elevations with 3D views.',
+                'tags'        => ['extension', 'single-storey', 'rear', 'revit'],
+                'featured'    => false,
+                'sort_order'  => 8,
+            ],
+
+            // OUTBUILDING
+            [
+                'title'       => 'Garden Outbuilding — Gym & Play Area',
+                'category'    => 'outbuilding',
+                'location'    => 'UK',
+                'year'        => 2018,
+                'description' => 'Detached garden outbuilding of 31.49 m² providing a private gym area and a flexible kids play area / home office space. The structure features a pitched roof to a total height of 3,900 mm, designed to sit sympathetically within the garden of the existing property.',
+                'tags'        => ['outbuilding', 'gym', 'home-office', 'garden'],
+                'featured'    => false,
+                'sort_order'  => 9,
+            ],
         ];
 
         foreach ($items as $item) {
-            // Use a placeholder image path (admin will upload real ones)
             PortfolioItem::create(array_merge($item, [
-                'slug'        => Str::slug($item['title']) . '-' . $item['sort_order'],
-                'cover_image' => 'portfolio/placeholder.jpg',
-                'is_active'   => true,
+                'slug'          => Str::slug($item['title']) . '-' . $item['sort_order'],
+                'cover_image'   => 'portfolio/placeholder.jpg',
+                'gallery_images'=> [],
+                'is_active'     => true,
             ]));
         }
     }
