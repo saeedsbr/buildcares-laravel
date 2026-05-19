@@ -114,15 +114,15 @@ class PortfolioSeeder extends Seeder
         ];
 
         $covers = [
-            1 => 'portfolio/new-build-house-1.png',
-            2 => 'portfolio/loft-conversion-flat-roof-dormer-1.png',
-            3 => 'portfolio/loft-conversion-rear-dormer-1.png',
-            4 => 'portfolio/single-storey-rear-extension-loft-conversion-1.png',
-            5 => 'portfolio/double-storey-side-extension-1.png',
-            6 => 'portfolio/double-storey-rear-extension-1.png',
-            7 => 'portfolio/single-storey-extension-crown-roof-1.png',
-            8 => 'portfolio/single-storey-rear-extension-1.png',
-            9 => 'portfolio/garden-outbuilding-gym-play-area-1.png',
+            1 => 'portfolio/cat-new-build.jpg',
+            2 => 'portfolio/cat-loft-conversion.jpg',
+            3 => 'portfolio/cat-loft-conversion.jpg',
+            4 => 'portfolio/cat-loft-conversion.jpg',
+            5 => 'portfolio/cat-extension.jpg',
+            6 => 'portfolio/cat-extension.jpg',
+            7 => 'portfolio/cat-extension.jpg',
+            8 => 'portfolio/cat-extension.jpg',
+            9 => 'portfolio/cat-outbuilding.jpg',
         ];
 
         foreach ($items as $item) {
