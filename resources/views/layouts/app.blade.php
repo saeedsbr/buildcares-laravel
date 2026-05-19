@@ -38,7 +38,7 @@
         <nav id="main-nav" class="border-b transition-all duration-400" style="background-color:rgba(255,255,255,0.98); border-color:#e2e8f0; backdrop-filter:blur(12px);">
             <div class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
                 <a href="{{ route('home') }}" class="flex items-center">
-                    <img src="/images/logo.svg" alt="BuildCares" class="h-10 w-auto">
+                    <img src="/images/logo.jpeg" alt="BuildCares" class="h-12 w-auto">
                 </a>
 
                 <div class="hidden lg:flex items-center gap-8">
@@ -81,7 +81,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                 <div class="lg:col-span-2">
                     <div class="mb-5">
-                        <img src="/images/logo.svg" alt="BuildCares" class="h-10 w-auto brightness-0 invert opacity-70">
+                        <img src="/images/logo.jpeg" alt="BuildCares" class="h-12 w-auto">
                     </div>
                     <p class="text-sm leading-relaxed max-w-xs mb-6" style="color:#64748b;">
                         Freelance architectural design and CAD subcontractor delivering precision drawings for UK construction projects.
