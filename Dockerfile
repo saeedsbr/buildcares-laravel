@@ -55,6 +55,9 @@ COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 # Supervisor config
 COPY docker/supervisord.conf /etc/supervisord.conf
 
+# PHP-FPM pool config (force TCP 127.0.0.1:9000)
+COPY docker/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+
 # PHP opcache config
 RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini \
     && echo "opcache.memory_consumption=128" >> /usr/local/etc/php/conf.d/opcache.ini \
