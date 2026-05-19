@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'BuildCares') — Thoughtful Design, Lasting Care</title>
+    <link rel="icon" type="image/jpeg" href="/images/logo.jpeg">
     <meta name="description" content="@yield('description', 'BuildCares is a freelance architectural design and CAD subcontractor specialising in planning drawings, loft conversions, extensions, garage conversions, and new builds for UK clients.')">
 
     <!-- Fonts: DM Sans -->
