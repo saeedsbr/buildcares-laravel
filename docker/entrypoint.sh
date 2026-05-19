@@ -2,13 +2,18 @@
 
 cd /var/www/html
 
-# Wait for database (max 60s)
+# Wait for MySQL server and create database if needed
 if [ -n "${DB_HOST}" ]; then
-  echo "Waiting for database at ${DB_HOST}:${DB_PORT:-3306}..."
+  echo "Waiting for MySQL at ${DB_HOST}:${DB_PORT:-3306}..."
   i=0
   while [ $i -lt 20 ]; do
-    if php -r "new PDO('mysql:host=${DB_HOST};port=${DB_PORT:-3306};dbname=${DB_DATABASE}', '${DB_USERNAME}', '${DB_PASSWORD}');" 2>/dev/null; then
-      echo "Database ready."
+    if php -r "new PDO('mysql:host=${DB_HOST};port=${DB_PORT:-3306}', '${DB_USERNAME}', '${DB_PASSWORD}');" 2>/dev/null; then
+      echo "MySQL server ready. Ensuring database exists..."
+      php -r "
+        \$pdo = new PDO('mysql:host=${DB_HOST};port=${DB_PORT:-3306}', '${DB_USERNAME}', '${DB_PASSWORD}');
+        \$pdo->exec('CREATE DATABASE IF NOT EXISTS \`${DB_DATABASE}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
+        echo 'Database ensured.' . PHP_EOL;
+      " 2>/dev/null || true
       break
     fi
     i=$((i+1))
