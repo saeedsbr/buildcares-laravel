@@ -111,18 +111,44 @@ class PortfolioSeeder extends Seeder
                 'featured'    => false,
                 'sort_order'  => 9,
             ],
+
+            // GARAGE CONVERSION
+            [
+                'title'       => 'Garage Conversion to Living Space',
+                'category'    => 'garage-conversion',
+                'location'    => 'UK',
+                'year'        => 2024,
+                'description' => 'Full conversion of an integral single garage into a bright, habitable living space. The project includes full planning and building control drawings, structural alterations, insulation upgrades and new window and door openings to match the existing property.',
+                'tags'        => ['garage-conversion', 'living-space', 'planning', 'building-control'],
+                'featured'    => true,
+                'sort_order'  => 10,
+            ],
+
+            // INTERNAL CHANGES
+            [
+                'title'       => 'Internal Alterations & Reconfigurations',
+                'category'    => 'internal-changes',
+                'location'    => 'UK',
+                'year'        => 2024,
+                'description' => 'Internal reconfigurations including load-bearing wall removal, new structural steels and full redesign of the ground floor layout to create a modern open-plan living arrangement. Full building control drawings and structural calculations package provided.',
+                'tags'        => ['internal-changes', 'open-plan', 'structural', 'building-control'],
+                'featured'    => true,
+                'sort_order'  => 11,
+            ],
         ];
 
         $covers = [
-            1 => 'portfolio/cat-new-build.jpg',
-            2 => 'portfolio/cat-loft-conversion.jpg',
-            3 => 'portfolio/cat-loft-conversion.jpg',
-            4 => 'portfolio/cat-loft-conversion.jpg',
-            5 => 'portfolio/cat-extension.jpg',
-            6 => 'portfolio/cat-extension.jpg',
-            7 => 'portfolio/cat-extension.jpg',
-            8 => 'portfolio/cat-extension.jpg',
-            9 => 'portfolio/cat-outbuilding.jpg',
+            1  => 'portfolio/cat-new-build.jpg',
+            2  => 'portfolio/cat-loft-conversion.jpg',
+            3  => 'portfolio/cat-loft-conversion.jpg',
+            4  => 'portfolio/cat-loft-conversion.jpg',
+            5  => 'portfolio/cat-extension.jpg',
+            6  => 'portfolio/cat-extension.jpg',
+            7  => 'portfolio/cat-extension.jpg',
+            8  => 'portfolio/cat-extension.jpg',
+            9  => 'portfolio/cat-outbuilding.jpg',
+            10 => 'portfolio/cat-garage-conversion.jpg',
+            11 => 'portfolio/cat-internal-changes.jpg',
         ];
 
         foreach ($items as $item) {
