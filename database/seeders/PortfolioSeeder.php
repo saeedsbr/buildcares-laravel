@@ -113,10 +113,22 @@ class PortfolioSeeder extends Seeder
             ],
         ];
 
+        $covers = [
+            1 => 'portfolio/new-build-house-1.png',
+            2 => 'portfolio/loft-conversion-flat-roof-dormer-1.png',
+            3 => 'portfolio/loft-conversion-rear-dormer-1.png',
+            4 => 'portfolio/single-storey-rear-extension-loft-conversion-1.png',
+            5 => 'portfolio/double-storey-side-extension-1.png',
+            6 => 'portfolio/double-storey-rear-extension-1.png',
+            7 => 'portfolio/single-storey-extension-crown-roof-1.png',
+            8 => 'portfolio/single-storey-rear-extension-1.png',
+            9 => 'portfolio/garden-outbuilding-gym-play-area-1.png',
+        ];
+
         foreach ($items as $item) {
             PortfolioItem::create(array_merge($item, [
                 'slug'          => Str::slug($item['title']) . '-' . $item['sort_order'],
-                'cover_image'   => 'portfolio/placeholder.jpg',
+                'cover_image'   => $covers[$item['sort_order']],
                 'gallery_images'=> [],
                 'is_active'     => true,
             ]));
