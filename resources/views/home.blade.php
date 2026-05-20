@@ -162,55 +162,6 @@
 </section>
 
 
-{{-- ═══ PORTFOLIO PREVIEW ═══ --}}
-<section class="section-padding bg-white">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-            <div>
-                <div class="section-label reveal">Our Work</div>
-                <h2 class="section-title reveal" style="margin-bottom:0">Featured Portfolio</h2>
-            </div>
-            <a href="{{ route('portfolio.index') }}" class="btn-outline-gold reveal flex-shrink-0">
-                View All Projects
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-        </div>
-
-        @if($featuredPortfolio->count())
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach($featuredPortfolio as $i => $item)
-            <a href="{{ route('portfolio.show', $item->slug) }}" class="portfolio-card reveal group" style="animation-delay:{{ $i * 0.1 }}s">
-                <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}" loading="lazy">
-                <div class="overlay">
-                    <span class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#93c5fd;">{{ $item->category_label }}</span>
-                    <h3 class="text-white font-bold text-lg leading-tight">{{ $item->title }}</h3>
-                    @if($item->location)
-                    <span class="text-xs mt-1 flex items-center gap-1" style="color:#64748b;">
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-                        {{ $item->location }}
-                    </span>
-                    @endif
-                </div>
-            </a>
-            @endforeach
-        </div>
-        @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach(['Garage Conversion — Birmingham', 'Loft Conversion — Manchester', 'Rear Extension — London', 'New Build — Leeds', 'Outbuilding — Bristol', 'Internal Changes — Sheffield'] as $i => $label)
-            <div class="portfolio-card reveal border group cursor-default" style="animation-delay:{{ $i * 0.1 }}s; border-color:#e2e8f0;">
-                <div class="w-full h-full flex flex-col items-center justify-center p-8" style="background:#f8fafc;">
-                    <svg class="w-14 h-14 mb-4" style="color:#dbeafe;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <p class="text-sm text-center font-medium" style="color:#64748b;">{{ $label }}</p>
-                    <p class="text-xs mt-1" style="color:#94a3b8;">Upload via Admin</p>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        @endif
-    </div>
-</section>
-
-
 
 {{-- ═══ WHAT WE DEAL IN ═══ --}}
 <section class="section-padding" style="background-color:#f8fafc;">
