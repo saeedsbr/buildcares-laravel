@@ -40,8 +40,32 @@
 {{-- Cover image --}}
 <div style="background-color:#f8fafc;">
     <div class="max-w-7xl mx-auto px-6 py-8">
-        <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}"
-             class="w-full object-contain" style="max-height:620px; border:1px solid #e2e8f0;">
+        <div class="relative group inline-block w-full">
+            <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}"
+                 class="lightbox-trigger w-full object-contain" style="max-height:620px; border:1px solid #e2e8f0; cursor:zoom-in;">
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style="background:rgba(0,0,0,0.08);">
+                <div class="flex items-center gap-2 px-4 py-2 text-sm font-semibold" style="background:rgba(255,255,255,0.95); color:#0f172a; border:1px solid #e2e8f0;">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                    Click to zoom
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Lightbox modal --}}
+<div id="lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.92);">
+    <button id="lightbox-close" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center transition-colors" style="color:#ffffff; background:rgba(255,255,255,0.12);" aria-label="Close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="relative w-full h-full flex items-center justify-center overflow-hidden" id="lightbox-inner">
+        <img id="lightbox-img" src="" alt="" class="select-none" style="max-width:100%; max-height:100%; object-fit:contain; transform-origin:center; transition:transform 0.2s ease; cursor:grab;">
+    </div>
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-3">
+        <button id="lb-zoom-out" class="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors" style="background:rgba(255,255,255,0.12); color:#ffffff;">−</button>
+        <span id="lb-zoom-label" class="text-xs w-12 text-center" style="color:#94a3b8;">100%</span>
+        <button id="lb-zoom-in" class="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors" style="background:rgba(255,255,255,0.12); color:#ffffff;">+</button>
+        <button id="lb-zoom-reset" class="px-3 h-9 flex items-center justify-center text-xs transition-colors" style="background:rgba(255,255,255,0.12); color:#ffffff;">Reset</button>
     </div>
 </div>
 
@@ -66,14 +90,14 @@
                     <h2 class="font-bold text-xl mb-6" style="color:#0f172a;">Project Gallery</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         @foreach($item->gallery_images as $img)
-                        <a href="{{ Storage::url($img) }}" target="_blank" class="portfolio-card rounded-md overflow-hidden">
+                        <div class="lightbox-trigger portfolio-card rounded-md overflow-hidden" data-src="{{ Storage::url($img) }}" style="cursor:zoom-in;">
                             <img src="{{ Storage::url($img) }}" alt="Gallery image" loading="lazy">
                             <div class="overlay">
                                 <div class="flex items-center justify-center h-full">
                                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -151,5 +175,76 @@
     </div>
 </section>
 @endif
+
+@push('scripts')
+<script>
+(function () {
+    const lightbox   = document.getElementById('lightbox');
+    const lbImg      = document.getElementById('lightbox-img');
+    const lbClose    = document.getElementById('lightbox-close');
+    const lbZoomIn   = document.getElementById('lb-zoom-in');
+    const lbZoomOut  = document.getElementById('lb-zoom-out');
+    const lbReset    = document.getElementById('lb-zoom-reset');
+    const lbLabel    = document.getElementById('lb-zoom-label');
+
+    let scale = 1;
+    const STEP = 0.25, MIN = 0.5, MAX = 5;
+
+    function openLightbox(src) {
+        lbImg.src = src;
+        scale = 1;
+        applyScale();
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+    }
+
+    function applyScale() {
+        lbImg.style.transform = `scale(${scale})`;
+        lbLabel.textContent = Math.round(scale * 100) + '%';
+        lbImg.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
+    }
+
+    // Open triggers (cover image + gallery items)
+    document.querySelectorAll('.lightbox-trigger').forEach(el => {
+        el.addEventListener('click', () => {
+            const src = el.dataset.src || el.src || el.querySelector('img')?.src;
+            if (src) openLightbox(src);
+        });
+    });
+
+    // Close on button or backdrop click
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target.id === 'lightbox-inner') closeLightbox(); });
+
+    // Zoom controls
+    lbZoomIn.addEventListener('click',  () => { scale = Math.min(MAX, scale + STEP); applyScale(); });
+    lbZoomOut.addEventListener('click', () => { scale = Math.max(MIN, scale - STEP); applyScale(); });
+    lbReset.addEventListener('click',   () => { scale = 1; applyScale(); });
+
+    // Mouse wheel zoom
+    document.getElementById('lightbox-inner').addEventListener('wheel', e => {
+        e.preventDefault();
+        scale = Math.min(MAX, Math.max(MIN, scale + (e.deltaY < 0 ? STEP : -STEP)));
+        applyScale();
+    }, { passive: false });
+
+    // Keyboard: Escape to close, +/- to zoom
+    document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('flex')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === '+' || e.key === '=') { scale = Math.min(MAX, scale + STEP); applyScale(); }
+        if (e.key === '-')                   { scale = Math.max(MIN, scale - STEP); applyScale(); }
+    });
+})();
+</script>
+@endpush
 
 @endsection
