@@ -8,10 +8,53 @@
 {{-- Page header --}}
 <section class="pt-32 pb-8 border-b" style="background-color:#f8fafc; border-color:#e2e8f0;">
     <div class="max-w-7xl mx-auto px-6">
-        <a href="{{ route('portfolio.index') }}" class="inline-flex items-center gap-2 text-sm mb-6 transition-colors hover:text-blue-600" style="color:#64748b;">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
-            Back to Portfolio
-        </a>
+        {{-- Top nav row: Back + Prev/Next --}}
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <a href="{{ route('portfolio.index', ['category' => $item->category]) }}" class="inline-flex items-center gap-2 text-sm transition-colors hover:text-blue-600" style="color:#64748b;">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+                Back to {{ $item->category_label }}
+            </a>
+
+            @if($prev || $next)
+            <div class="flex items-center gap-2">
+                @if($prev)
+                <a id="nav-prev" href="{{ route('portfolio.show', $prev->slug) }}"
+                   class="group flex items-center gap-2 px-3 py-2 text-sm border transition-colors hover:border-blue-600 hover:text-blue-600"
+                   style="border-color:#e2e8f0; color:#475569; background:#ffffff;" title="{{ $prev->title }}">
+                    <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    <span class="hidden sm:inline max-w-[180px] truncate">{{ $prev->title }}</span>
+                    <span class="sm:hidden">Prev</span>
+                </a>
+                @else
+                <span class="flex items-center gap-2 px-3 py-2 text-sm border opacity-40 cursor-not-allowed" style="border-color:#e2e8f0; color:#94a3b8; background:#ffffff;">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    <span class="hidden sm:inline">Prev</span>
+                </span>
+                @endif
+
+                @if($siblings->count() > 1)
+                <span class="text-xs tracking-widest uppercase px-2" style="color:#94a3b8;">
+                    {{ $siblings->search(fn($p) => $p->id === $item->id) + 1 }} / {{ $siblings->count() }}
+                </span>
+                @endif
+
+                @if($next)
+                <a id="nav-next" href="{{ route('portfolio.show', $next->slug) }}"
+                   class="group flex items-center gap-2 px-3 py-2 text-sm border transition-colors hover:border-blue-600 hover:text-blue-600"
+                   style="border-color:#e2e8f0; color:#475569; background:#ffffff;" title="{{ $next->title }}">
+                    <span class="sm:hidden">Next</span>
+                    <span class="hidden sm:inline max-w-[180px] truncate">{{ $next->title }}</span>
+                    <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+                @else
+                <span class="flex items-center gap-2 px-3 py-2 text-sm border opacity-40 cursor-not-allowed" style="border-color:#e2e8f0; color:#94a3b8; background:#ffffff;">
+                    <span class="hidden sm:inline">Next</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </span>
+                @endif
+            </div>
+            @endif
+        </div>
         <span class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 mb-4" style="background:#2563eb; color:#ffffff;">{{ $item->category_label }}</span>
         <h1 class="font-bold text-3xl md:text-5xl mb-4" style="color:#0f172a; font-family:'DM Sans',sans-serif; line-height:1.1;">{{ $item->title }}</h1>
         <div class="flex flex-wrap items-center gap-5 text-sm" style="color:#64748b;">
@@ -156,21 +199,59 @@
     </div>
 </section>
 
-{{-- Related projects --}}
-@if($related->count())
-<section class="py-16 border-t" style="background-color:#f8fafc; border-color:#e2e8f0;">
+{{-- Sibling slider — all projects in this category --}}
+@if($siblings->count() > 1)
+<section class="py-14 border-t" style="background-color:#f8fafc; border-color:#e2e8f0;">
     <div class="max-w-7xl mx-auto px-6">
-        <h2 class="font-bold text-2xl mb-8" style="color:#0f172a;">Related Projects</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach($related as $rel)
-            <a href="{{ route('portfolio.show', $rel->slug) }}" class="portfolio-card rounded-lg">
-                <img src="{{ Storage::url($rel->cover_image) }}" alt="{{ $rel->title }}" loading="lazy">
-                <div class="overlay">
-                    <span class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:#93c5fd;">{{ $rel->category_label }}</span>
-                    <h3 class="text-white font-semibold text-base">{{ $rel->title }}</h3>
-                </div>
-            </a>
-            @endforeach
+        <div class="flex items-end justify-between mb-6 gap-4">
+            <div>
+                <div class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#2563eb;">More from this collection</div>
+                <h2 class="font-bold text-2xl" style="color:#0f172a;">{{ $item->category_label }} Projects</h2>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <button type="button" id="sibling-prev"
+                        class="w-10 h-10 flex items-center justify-center border transition-colors hover:border-blue-600 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                        style="border-color:#e2e8f0; color:#475569; background:#ffffff;" aria-label="Scroll left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button type="button" id="sibling-next"
+                        class="w-10 h-10 flex items-center justify-center border transition-colors hover:border-blue-600 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                        style="border-color:#e2e8f0; color:#475569; background:#ffffff;" aria-label="Scroll right">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="relative">
+            {{-- Fade edges --}}
+            <div class="absolute left-0 top-0 bottom-3 w-8 z-10 pointer-events-none" style="background:linear-gradient(to right,#f8fafc,transparent);"></div>
+            <div class="absolute right-0 top-0 bottom-3 w-8 z-10 pointer-events-none" style="background:linear-gradient(to left,#f8fafc,transparent);"></div>
+
+            <div id="sibling-track" class="flex gap-4 overflow-x-auto scroll-smooth pb-3" style="scroll-snap-type:x mandatory; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent;">
+                @foreach($siblings as $sib)
+                @php $isCurrent = $sib->id === $item->id; @endphp
+                <a href="{{ route('portfolio.show', $sib->slug) }}"
+                   data-current="{{ $isCurrent ? '1' : '0' }}"
+                   class="sibling-card group flex-shrink-0 w-64 sm:w-72 block transition-all duration-200"
+                   style="scroll-snap-align:start; {{ $isCurrent ? 'outline:2px solid #2563eb; outline-offset:3px;' : '' }}">
+                    <div class="aspect-[4/3] overflow-hidden border" style="border-color:#e2e8f0; background:#ffffff;">
+                        <img src="{{ Storage::url($sib->cover_image) }}" alt="{{ $sib->title }}" loading="lazy"
+                             class="w-full h-full object-cover transition-transform duration-500 {{ $isCurrent ? '' : 'group-hover:scale-105' }}">
+                    </div>
+                    <div class="pt-3">
+                        <div class="flex items-center gap-2 mb-1">
+                            @if($isCurrent)
+                            <span class="text-[10px] font-bold uppercase tracking-widest px-1.5 py-0.5" style="background:#2563eb; color:#ffffff;">Viewing</span>
+                            @endif
+                            @if($sib->year)
+                            <span class="text-xs" style="color:#94a3b8;">{{ $sib->year }}</span>
+                            @endif
+                        </div>
+                        <h3 class="font-semibold text-sm leading-snug line-clamp-2" style="color:#0f172a;">{{ $sib->title }}</h3>
+                    </div>
+                </a>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
@@ -325,6 +406,47 @@
         if (e.key === '+' || e.key === '=')  zoomAt(c.x, c.y, scale + STEP);
         if (e.key === '-')                   zoomAt(c.x, c.y, scale - STEP);
         if (e.key === '0')                   reset();
+    });
+})();
+
+// Sibling project slider
+(function () {
+    const track = document.getElementById('sibling-track');
+    if (!track) return;
+    const btnPrev = document.getElementById('sibling-prev');
+    const btnNext = document.getElementById('sibling-next');
+
+    function step() {
+        const card = track.querySelector('.sibling-card');
+        return card ? card.getBoundingClientRect().width + 16 /* gap-4 */ : 280;
+    }
+
+    function updateButtons() {
+        const max = track.scrollWidth - track.clientWidth - 1;
+        if (btnPrev) btnPrev.disabled = track.scrollLeft <= 1;
+        if (btnNext) btnNext.disabled = track.scrollLeft >= max;
+    }
+
+    btnPrev?.addEventListener('click', () => track.scrollBy({ left: -step() * 2, behavior: 'smooth' }));
+    btnNext?.addEventListener('click', () => track.scrollBy({ left:  step() * 2, behavior: 'smooth' }));
+    track.addEventListener('scroll', updateButtons, { passive: true });
+
+    // Center the current project in the strip on load
+    const current = track.querySelector('[data-current="1"]');
+    if (current) {
+        const c = current.offsetLeft - (track.clientWidth - current.offsetWidth) / 2;
+        track.scrollLeft = Math.max(0, c);
+    }
+    updateButtons();
+
+    // Keyboard left/right arrows navigate to prev/next project
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('lightbox')?.classList.contains('hidden') === false) return;
+        if (e.target.matches('input, textarea, [contenteditable]')) return;
+        const prev = document.getElementById('nav-prev');
+        const next = document.getElementById('nav-next');
+        if (e.key === 'ArrowLeft'  && prev) { e.preventDefault(); window.location.href = prev.href; }
+        if (e.key === 'ArrowRight' && next) { e.preventDefault(); window.location.href = next.href; }
     });
 })();
 </script>

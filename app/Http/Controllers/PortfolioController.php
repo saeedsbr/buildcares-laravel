@@ -25,12 +25,17 @@ class PortfolioController extends Controller
     public function show(string $slug)
     {
         $item = PortfolioItem::active()->where('slug', $slug)->firstOrFail();
-        $related = PortfolioItem::active()
+
+        $siblings = PortfolioItem::active()
             ->where('category', $item->category)
-            ->where('id', '!=', $item->id)
-            ->limit(3)
+            ->orderBy('sort_order')
+            ->orderBy('id')
             ->get();
 
-        return view('portfolio.show', compact('item', 'related'));
+        $index = $siblings->search(fn ($p) => $p->id === $item->id);
+        $prev = $index > 0 ? $siblings->get($index - 1) : null;
+        $next = $index !== false && $index < $siblings->count() - 1 ? $siblings->get($index + 1) : null;
+
+        return view('portfolio.show', compact('item', 'siblings', 'prev', 'next'));
     }
 }

@@ -45,8 +45,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="portfolio-grid">
             @foreach($portfolioItems as $i => $item)
             <a href="{{ route('portfolio.show', $item->slug) }}"
-               class="portfolio-card reveal group {{ $i === 0 || $i === 3 ? 'sm:col-span-2 sm:row-span-1' : '' }}"
-               style="animation-delay:{{ ($i % 8) * 0.08 }}s; {{ $i === 0 || $i === 3 ? 'aspect-ratio:16/9' : '' }}">
+               class="portfolio-card reveal group"
+               style="animation-delay:{{ ($i % 8) * 0.08 }}s;">
                 <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}" loading="lazy">
                 <div class="overlay">
                     <div class="flex items-center gap-2 mb-2">
