@@ -32,6 +32,9 @@ services:
       MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS:-anwar@buildcares.com}
       MAIL_FROM_NAME: BuildCares
 
+      CONTACT_RECIPIENT_EMAIL: ${CONTACT_RECIPIENT_EMAIL:-anwar@buildcares.com}
+      WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-447586750755}
+
       ADMIN_NAME: ${ADMIN_NAME:-Admin}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@buildcares.com}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme123}
