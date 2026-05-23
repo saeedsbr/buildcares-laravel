@@ -14,6 +14,11 @@ const DIM     = 0xf59e0b; // dimension lines (CAD yellow/amber)
 const HIDDEN  = 0x94a3b8; // hidden / construction lines
 const SOFT    = 0xbfdbfe; // soft accents
 
+// Service-type layer colors (matching how CAD drawings show new vs existing)
+const LOFT_C  = 0x10b981; // loft conversion  — emerald
+const SIDE_C  = 0xa855f7; // side extension   — purple
+const REAR_C  = 0xf97316; // rear extension   — orange
+
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ── Generic line helpers ───────────────────────────────────────────────────
@@ -230,7 +235,89 @@ function buildHouseStages() {
     snaps.userData.targetOpacity = 0.9;
     stages.push(snaps);
 
-    return stages;
+    // Each extension stage exposes a labelAnchor so the HTML overlay can pin a tag onto it.
+    const extensionLabels = [];
+
+    // Stage 6: Loft conversion — rear dormer on the +X roof slope
+    const loft = new THREE.Group();
+    const dormer = solidEdges(new THREE.BoxGeometry(0.8, 0.7, 0.9), LOFT_C, 0);
+    dormer.position.set(2.05, 2.95, -0.5);
+    loft.add(dormer);
+    // Dormer window face (facing +X)
+    const dormerWin = solidEdges(new THREE.BoxGeometry(0.02, 0.45, 0.6), LOFT_C, 0);
+    dormerWin.position.set(2.46, 2.95, -0.5);
+    loft.add(dormerWin);
+    // Internal "new loft floor" line — dashed, suggesting added storey within roof.
+    // Sized to fit under the pitched roof envelope at y=2.6.
+    const loftFloor = dashedEdges(
+        new THREE.PlaneGeometry(3.0, 2.6).rotateX(-Math.PI / 2),
+        LOFT_C, 0, 0.12, 0.08
+    );
+    loftFloor.position.y = 2.6;
+    loft.add(loftFloor);
+    loft.userData.targetOpacity = 0.95;
+    stages.push(loft);
+    extensionLabels.push({
+        anchor: new THREE.Vector3(2.5, 3.4, -0.5),
+        text: 'LOFT CONVERSION',
+        color: '#10b981',
+        stageIndex: 6,
+    });
+
+    // Stage 7: Double-storey side extension (extends +X)
+    const sideExt = new THREE.Group();
+    const sideBox = solidEdges(new THREE.BoxGeometry(2.5, 2.2, 3), SIDE_C, 0);
+    sideBox.position.set(3.25, 1.1, 0);
+    sideExt.add(sideBox);
+    // First-floor slab line — visualises the second storey inside
+    sideExt.add(lineFromPoints([
+        new THREE.Vector3(2.0, 1.2, -1.5), new THREE.Vector3(4.5, 1.2, -1.5),
+        new THREE.Vector3(4.5, 1.2, -1.5), new THREE.Vector3(4.5, 1.2,  1.5),
+        new THREE.Vector3(4.5, 1.2,  1.5), new THREE.Vector3(2.0, 1.2,  1.5),
+    ], SIDE_C, 0));
+    // Two windows per floor on the outer (+X) face
+    [-0.7, 0.7].forEach((z) => {
+        [0.5, 1.65].forEach((y) => {
+            const w = solidEdges(new THREE.BoxGeometry(0.02, 0.55, 0.55), SIDE_C, 0);
+            w.position.set(4.51, y + 0.15, z);
+            sideExt.add(w);
+        });
+    });
+    sideExt.userData.targetOpacity = 0.95;
+    stages.push(sideExt);
+    extensionLabels.push({
+        anchor: new THREE.Vector3(4.5, 2.4, 1.5),
+        text: 'SIDE EXTENSION · 2-STOREY',
+        color: '#a855f7',
+        stageIndex: 7,
+    });
+
+    // Stage 8: Single-storey rear extension (extends -Z)
+    const rearExt = new THREE.Group();
+    const rearBox = solidEdges(new THREE.BoxGeometry(4, 1.0, 2), REAR_C, 0);
+    rearBox.position.set(0, 0.5, -2.5);
+    rearExt.add(rearBox);
+    // Large glazed rear opening (e.g. bi-fold doors) on -Z face
+    const rearGlass = solidEdges(new THREE.BoxGeometry(3.0, 0.7, 0.02), REAR_C, 0);
+    rearGlass.position.set(0, 0.55, -3.51);
+    rearExt.add(rearGlass);
+    // Mullion divisions
+    [-1.0, 0, 1.0].forEach((x) => {
+        rearExt.add(lineFromPoints([
+            new THREE.Vector3(x, 0.2, -3.515),
+            new THREE.Vector3(x, 0.9, -3.515),
+        ], REAR_C, 0));
+    });
+    rearExt.userData.targetOpacity = 0.95;
+    stages.push(rearExt);
+    extensionLabels.push({
+        anchor: new THREE.Vector3(0, 1.2, -3.5),
+        text: 'REAR EXTENSION · 1-STOREY',
+        color: '#f97316',
+        stageIndex: 8,
+    });
+
+    return { stages, extensionLabels };
 }
 
 // ── Build dimension lines (will be revealed after structure) ───────────────
@@ -294,19 +381,21 @@ export function initHeroHouse(container) {
     if (!container) return;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
-    camera.position.set(8.5, 5.2, 10);
-    camera.lookAt(0, 1.5, 0);
+    // FOV widened and camera pulled back to accommodate the three extensions
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(9.5, 6, 11.5);
+    const cameraTarget = new THREE.Vector3(0.5, 1.4, -0.5);
+    camera.lookAt(cameraTarget);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
     renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;';
 
-    // Build stages
+    // Build stages (base house + dimensions + 3 extension types)
     const houseGroup = new THREE.Group();
     scene.add(houseGroup);
-    const stages = buildHouseStages();
+    const { stages, extensionLabels } = buildHouseStages();
     stages.forEach((s) => houseGroup.add(s));
 
     // Dimensions (added but invisible until reveal)
@@ -334,6 +423,28 @@ export function initHeroHouse(container) {
         labelLayer.appendChild(el);
         return el;
     });
+
+    // Extension-type labels (LOFT / SIDE / REAR) — bolder chips in their layer color
+    const extLabelEls = extensionLabels.map(({ text, color }) => {
+        const el = document.createElement('div');
+        el.textContent = text;
+        const rgb = hexToRgb(color);
+        el.style.cssText = `
+            position:absolute; transform:translate(-50%,-50%);
+            padding:3px 8px; font-size:9px; font-weight:800; letter-spacing:0.1em;
+            color:#ffffff; background:${color}; border:1px solid rgba(${rgb},0.85);
+            border-radius:1px; white-space:nowrap; opacity:0; transition:opacity 0.4s ease;
+            box-shadow:0 2px 8px rgba(${rgb},0.35);
+        `;
+        labelLayer.appendChild(el);
+        return el;
+    });
+
+    function hexToRgb(hex) {
+        const h = hex.replace('#', '');
+        const n = parseInt(h, 16);
+        return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+    }
 
     // Axis gizmo (lower-left corner of the canvas — separate ortho scene)
     const gizmoScene = new THREE.Scene();
@@ -418,15 +529,14 @@ export function initHeroHouse(container) {
     io.observe(container);
 
     // Stage reveal timings (seconds from start)
-    //   0.0  → plate
-    //   0.4  → walls
-    //   0.9  → roof
-    //   1.4  → openings
-    //   1.9  → hidden lines
-    //   2.2  → snap markers
-    //   2.5  → dimensions + axis labels
-    //   2.7  → crosshair enable
-    const stageStarts = [0.0, 0.4, 0.9, 1.4, 1.9, 2.2];
+    //   0.0 → plate     0.4 → walls    0.9 → roof
+    //   1.4 → openings  1.9 → hidden   2.2 → snap markers
+    //   2.5 → dimensions
+    //   3.0 → loft conversion
+    //   3.5 → side extension
+    //   4.0 → rear extension
+    //   4.6 → rotation kicks in
+    const stageStarts = [0.0, 0.4, 0.9, 1.4, 1.9, 2.2, 3.0, 3.5, 4.0];
     const stageDur = 0.55;
     const dimStart = 2.5;
     const dimDur = 0.6;
@@ -437,6 +547,7 @@ export function initHeroHouse(container) {
         setStageOpacity(dimGroup, 1);
         labelEls.forEach((el) => (el.style.opacity = '1'));
         axisLabels.forEach((el) => (el.style.opacity = '1'));
+        extLabelEls.forEach((el) => (el.style.opacity = '1'));
     }
 
     function setStageOpacity(stage, p) {
@@ -483,19 +594,26 @@ export function initHeroHouse(container) {
                 setStageOpacity(dimGroup, dp);
                 labelEls.forEach((el) => (el.style.opacity = dp > 0.4 ? '1' : '0'));
                 axisLabels.forEach((el) => (el.style.opacity = dp > 0.2 ? '1' : '0'));
+
+                // Extension labels fade in alongside their stage
+                extensionLabels.forEach((l, i) => {
+                    const sStart = stageStarts[l.stageIndex];
+                    const p = Math.min(1, Math.max(0, (t - sStart) / stageDur));
+                    extLabelEls[i].style.opacity = p > 0.3 ? '1' : '0';
+                });
             }
 
-            // Rotation only kicks in after structure is fully drawn
-            const spinStart = 2.0;
+            // Rotation only kicks in after structure + extensions are fully drawn
+            const spinStart = 4.6;
             const spinT = Math.max(0, t - spinStart);
-            houseGroup.rotation.y = spinT * 0.14;
+            houseGroup.rotation.y = spinT * 0.12;
 
             // Smooth mouse parallax (only when crosshair active)
             mouse.x += (mouse.tx - mouse.x) * 0.04;
             mouse.y += (mouse.ty - mouse.y) * 0.04;
-            camera.position.x = 8.5 + mouse.x * 0.8;
-            camera.position.y = 5.2 + mouse.y * 0.4;
-            camera.lookAt(0, 1.5, 0);
+            camera.position.x = 9.5 + mouse.x * 0.7;
+            camera.position.y = 6 + mouse.y * 0.35;
+            camera.lookAt(cameraTarget);
 
             renderer.render(scene, camera);
 
@@ -506,6 +624,11 @@ export function initHeroHouse(container) {
                 const p = project(l.anchor, w, h);
                 labelEls[i].style.left = p.x + 'px';
                 labelEls[i].style.top  = p.y + 'px';
+            });
+            extensionLabels.forEach((l, i) => {
+                const p = project(l.anchor, w, h);
+                extLabelEls[i].style.left = p.x + 'px';
+                extLabelEls[i].style.top  = p.y + 'px';
             });
 
             // Gizmo (overlay in lower-left)
