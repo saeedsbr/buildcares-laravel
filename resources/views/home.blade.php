@@ -4,6 +4,7 @@
 
 {{-- ═══ HERO ═══ --}}
 <section class="relative min-h-screen flex items-center overflow-hidden" style="background-color:#f0f7ff;">
+    {{-- Static background: blueprint grid + radial glow --}}
     <div class="absolute inset-0 z-0 pointer-events-none">
         <svg class="absolute inset-0 w-full h-full opacity-[0.05]" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
             <defs>
@@ -17,8 +18,11 @@
             <rect width="100%" height="100%" fill="url(#grid-sm)"/>
             <rect width="100%" height="100%" fill="url(#grid-lg)"/>
         </svg>
-        <div class="absolute top-0 right-0 w-[900px] h-[900px] pointer-events-none" style="background:radial-gradient(circle at 75% 30%, rgba(37,99,235,0.07) 0%, transparent 65%);"></div>
+        <div class="absolute top-0 right-0 w-[900px] h-[900px] pointer-events-none" style="background:radial-gradient(circle at 75% 30%, rgba(37,99,235,0.10) 0%, transparent 65%);"></div>
     </div>
+
+    {{-- Three.js ambient field: subtle drifting particles + wireframe shapes across the whole hero --}}
+    <div id="hero-ambient-3d" class="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6 pt-36 pb-24 w-full">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -55,52 +59,49 @@
                 </div>
             </div>
 
-            {{-- Blueprint card — light --}}
+            {{-- 3D wireframe house — Three.js scene --}}
             <div class="relative hidden lg:block animate-fadeInUp" style="animation-delay:0.35s">
-                <div class="animate-float">
-                    <div class="border shadow-xl" style="background:#ffffff; border-color:#dbeafe;">
+                <div class="relative">
+                    {{-- Blueprint canvas frame (matches the rest of the design language) --}}
+                    <div class="relative border shadow-xl" style="background:#ffffff; border-color:#dbeafe;">
                         <div class="p-2">
-                            <div class="aspect-[4/3] flex items-center justify-center relative overflow-hidden" style="background:#f0f7ff;">
-                                <svg viewBox="0 0 400 300" class="w-full h-full" fill="none">
-                                    <rect width="400" height="300" fill="#f0f7ff"/>
+                            <div class="aspect-[4/3] relative overflow-hidden" style="background:linear-gradient(180deg,#f0f7ff 0%,#e6f0ff 100%);">
+                                {{-- Subtle blueprint grid behind the 3D scene --}}
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 300" preserveAspectRatio="none">
                                     <defs>
                                         <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
                                             <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#dbeafe" stroke-width="0.8"/>
                                         </pattern>
                                     </defs>
                                     <rect width="400" height="300" fill="url(#bp-grid)"/>
-                                    <g fill="none">
-                                        <polyline points="100,120 200,40 300,120" stroke="#2563eb" stroke-width="2"/>
-                                        <line x1="200" y1="40" x2="200" y2="60" stroke="#2563eb" stroke-width="1" stroke-dasharray="4,2"/>
-                                        <rect x="110" y="120" width="180" height="130" stroke="#2563eb" stroke-width="1.5"/>
-                                        <rect x="175" y="185" width="50" height="65" stroke="#2563eb" stroke-width="1.5"/>
-                                        <circle cx="220" cy="217" r="3" fill="#2563eb"/>
-                                        <rect x="125" y="140" width="40" height="35" stroke="#60a5fa" stroke-width="1"/>
-                                        <line x1="145" y1="140" x2="145" y2="175" stroke="#60a5fa" stroke-width="0.6"/>
-                                        <line x1="125" y1="157" x2="165" y2="157" stroke="#60a5fa" stroke-width="0.6"/>
-                                        <rect x="235" y="140" width="40" height="35" stroke="#60a5fa" stroke-width="1"/>
-                                        <line x1="255" y1="140" x2="255" y2="175" stroke="#60a5fa" stroke-width="0.6"/>
-                                        <line x1="235" y1="157" x2="275" y2="157" stroke="#60a5fa" stroke-width="0.6"/>
-                                        <line x1="75" y1="120" x2="75" y2="250" stroke="#93c5fd" stroke-width="0.5" stroke-dasharray="3,2"/>
-                                        <line x1="70" y1="120" x2="80" y2="120" stroke="#93c5fd" stroke-width="0.5"/>
-                                        <line x1="70" y1="250" x2="80" y2="250" stroke="#93c5fd" stroke-width="0.5"/>
-                                        <line x1="110" y1="270" x2="290" y2="270" stroke="#93c5fd" stroke-width="0.5" stroke-dasharray="3,2"/>
-                                        <line x1="110" y1="265" x2="110" y2="275" stroke="#93c5fd" stroke-width="0.5"/>
-                                        <line x1="290" y1="265" x2="290" y2="275" stroke="#93c5fd" stroke-width="0.5"/>
-                                    </g>
-                                    <text x="48" y="188" fill="#93c5fd" font-size="8" text-anchor="middle" transform="rotate(-90,48,188)">4.2m</text>
-                                    <text x="200" y="285" fill="#93c5fd" font-size="8" text-anchor="middle">6.0m</text>
-                                    <text x="200" y="25" fill="#2563eb" font-size="9" text-anchor="middle" font-weight="bold">FRONT ELEVATION</text>
-                                    <text x="330" y="15" fill="#60a5fa" font-size="7" text-anchor="middle">BuildCares</text>
-                                    <text x="330" y="25" fill="#93c5fd" font-size="6" text-anchor="middle">Drawing No: BC-001</text>
                                 </svg>
-                                <div class="absolute top-3 left-3 w-5 h-5 border-l border-t" style="border-color:#bfdbfe;"></div>
-                                <div class="absolute top-3 right-3 w-5 h-5 border-r border-t" style="border-color:#bfdbfe;"></div>
-                                <div class="absolute bottom-3 left-3 w-5 h-5 border-l border-b" style="border-color:#bfdbfe;"></div>
-                                <div class="absolute bottom-3 right-3 w-5 h-5 border-r border-b" style="border-color:#bfdbfe;"></div>
+
+                                {{-- Three.js canvas mounts here --}}
+                                <div id="hero-house-3d" class="absolute inset-0"></div>
+
+                                {{-- Drawing-style labels on top --}}
+                                <div class="absolute top-3 left-3 right-3 flex items-start justify-between pointer-events-none">
+                                    <div class="text-[10px] uppercase tracking-[0.2em] font-bold" style="color:#2563eb;">3D Concept</div>
+                                    <div class="text-right">
+                                        <div class="text-[10px] font-bold" style="color:#60a5fa;">BuildCares</div>
+                                        <div class="text-[9px]" style="color:#93c5fd;">Drawing No: BC-001</div>
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between pointer-events-none">
+                                    <div class="text-[10px] uppercase tracking-[0.2em]" style="color:#93c5fd;">Scale 1:50</div>
+                                    <div class="text-[10px] uppercase tracking-[0.2em]" style="color:#93c5fd;">Rev. A</div>
+                                </div>
+
+                                {{-- Corner crops --}}
+                                <div class="absolute top-3 left-3 w-5 h-5 border-l border-t pointer-events-none" style="border-color:#bfdbfe;"></div>
+                                <div class="absolute top-3 right-3 w-5 h-5 border-r border-t pointer-events-none" style="border-color:#bfdbfe;"></div>
+                                <div class="absolute bottom-3 left-3 w-5 h-5 border-l border-b pointer-events-none" style="border-color:#bfdbfe;"></div>
+                                <div class="absolute bottom-3 right-3 w-5 h-5 border-r border-b pointer-events-none" style="border-color:#bfdbfe;"></div>
                             </div>
                         </div>
                     </div>
+
+                    {{-- Floating badges --}}
                     <div class="absolute -top-4 -right-4 px-4 py-3 text-sm font-semibold flex items-center gap-2 shadow-lg border" style="background:#ffffff; border-color:#dbeafe; color:#1e293b;">
                         <svg class="w-4 h-4" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                         Planning Approved

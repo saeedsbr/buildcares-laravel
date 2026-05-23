@@ -1,4 +1,15 @@
 // BuildCares main JS
+import { initHeroHouse, initAmbientField } from './hero-3d.js';
+
+// Boot 3D scenes if their containers exist on this page
+document.addEventListener('DOMContentLoaded', () => {
+    const house = document.getElementById('hero-house-3d');
+    if (house) initHeroHouse(house);
+
+    const ambient = document.getElementById('hero-ambient-3d');
+    if (ambient) initAmbientField(ambient);
+});
+
 
 // Counter animation
 function animateCounters() {
