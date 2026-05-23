@@ -26,27 +26,31 @@ class PortfolioController extends Controller
     {
         $validated = $request->validate([
             'title'        => 'required|string|max:255',
-            'category'     => 'required|string',
+            'category'     => 'required|string|in:' . implode(',', array_keys(PortfolioItem::$categories)),
             'description'  => 'nullable|string',
             'location'     => 'nullable|string|max:255',
             'year'         => 'nullable|integer|min:2000|max:2030',
             'client'       => 'nullable|string|max:255',
             'cover_image'  => 'required|image|max:4096',
-            'featured'     => 'boolean',
-            'sort_order'   => 'integer',
+            'gallery_images.*' => 'nullable|image|max:4096',
+            'featured'     => 'nullable|boolean',
+            'is_active'    => 'nullable|boolean',
+            'sort_order'   => 'nullable|integer|min:0',
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']) . '-' . time();
+        $validated['slug'] = $this->makeUniqueSlug($validated['title']);
         $validated['cover_image'] = $request->file('cover_image')->store('portfolio', 'public');
-        $validated['featured'] = $request->boolean('featured');
+        $validated['featured']  = $request->boolean('featured');
+        $validated['is_active'] = $request->boolean('is_active', true);
+        $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
 
+        $gallery = [];
         if ($request->hasFile('gallery_images')) {
-            $gallery = [];
             foreach ($request->file('gallery_images') as $img) {
                 $gallery[] = $img->store('portfolio/gallery', 'public');
             }
-            $validated['gallery_images'] = $gallery;
         }
+        $validated['gallery_images'] = $gallery;
 
         PortfolioItem::create($validated);
 
@@ -63,24 +67,53 @@ class PortfolioController extends Controller
     {
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
-            'category'    => 'required|string',
+            'category'    => 'required|string|in:' . implode(',', array_keys(PortfolioItem::$categories)),
             'description' => 'nullable|string',
             'location'    => 'nullable|string|max:255',
             'year'        => 'nullable|integer|min:2000|max:2030',
             'client'      => 'nullable|string|max:255',
             'cover_image' => 'nullable|image|max:4096',
-            'featured'    => 'boolean',
-            'is_active'   => 'boolean',
-            'sort_order'  => 'integer',
+            'gallery_images.*' => 'nullable|image|max:4096',
+            'featured'    => 'nullable|boolean',
+            'is_active'   => 'nullable|boolean',
+            'sort_order'  => 'nullable|integer|min:0',
+            'remove_gallery' => 'nullable|array',
+            'remove_gallery.*' => 'string',
         ]);
 
         if ($request->hasFile('cover_image')) {
-            Storage::disk('public')->delete($portfolio->cover_image);
+            if ($portfolio->cover_image) {
+                Storage::disk('public')->delete($portfolio->cover_image);
+            }
             $validated['cover_image'] = $request->file('cover_image')->store('portfolio', 'public');
+        } else {
+            unset($validated['cover_image']);
         }
 
-        $validated['featured'] = $request->boolean('featured');
-        $validated['is_active'] = $request->boolean('is_active');
+        $gallery = $portfolio->gallery_images ?? [];
+
+        // Remove flagged gallery images.
+        if ($remove = $request->input('remove_gallery', [])) {
+            foreach ($remove as $path) {
+                if (in_array($path, $gallery, true)) {
+                    Storage::disk('public')->delete($path);
+                    $gallery = array_values(array_filter($gallery, fn ($p) => $p !== $path));
+                }
+            }
+        }
+
+        // Append newly uploaded gallery images.
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $img) {
+                $gallery[] = $img->store('portfolio/gallery', 'public');
+            }
+        }
+        $validated['gallery_images'] = $gallery;
+        unset($validated['remove_gallery']);
+
+        $validated['featured']   = $request->boolean('featured');
+        $validated['is_active']  = $request->boolean('is_active');
+        $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
 
         $portfolio->update($validated);
 
@@ -89,9 +122,25 @@ class PortfolioController extends Controller
 
     public function destroy(PortfolioItem $portfolio)
     {
-        Storage::disk('public')->delete($portfolio->cover_image);
+        if ($portfolio->cover_image) {
+            Storage::disk('public')->delete($portfolio->cover_image);
+        }
+        foreach (($portfolio->gallery_images ?? []) as $path) {
+            Storage::disk('public')->delete($path);
+        }
         $portfolio->delete();
 
         return redirect()->route('admin.portfolio.index')->with('success', 'Portfolio item deleted.');
+    }
+
+    private function makeUniqueSlug(string $title): string
+    {
+        $base = Str::slug($title);
+        $slug = $base;
+        $i = 1;
+        while (PortfolioItem::where('slug', $slug)->exists()) {
+            $slug = $base . '-' . $i++;
+        }
+        return $slug;
     }
 }

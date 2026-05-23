@@ -5,8 +5,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -20,9 +23,24 @@ Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('servic
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// Admin routes (simple auth via middleware later, or session-based)
+// Admin auth routes (guest)
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('portfolio', AdminPortfolioController::class)->except(['show']);
-});
+    Route::middleware('guest')->group(function () {
+        Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+        Route::post('login', [AuthController::class, 'login'])->name('login.attempt');
+    });
 
+    Route::middleware('auth')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::resource('portfolio', AdminPortfolioController::class)->except(['show']);
+        Route::resource('services', AdminServiceController::class)->except(['show']);
+
+        Route::get('messages', [AdminMessageController::class, 'index'])->name('messages.index');
+        Route::get('messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+        Route::patch('messages/{message}/read', [AdminMessageController::class, 'toggleRead'])->name('messages.toggleRead');
+        Route::delete('messages/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');
+    });
+});

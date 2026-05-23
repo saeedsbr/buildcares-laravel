@@ -16,7 +16,7 @@
 <div class="card-dark rounded-xl overflow-hidden">
     <table class="w-full text-sm">
         <thead>
-            <tr class="border-b border-white/5">
+            <tr class="border-b border-slate-200">
                 <th class="text-left py-3 px-4 text-xs uppercase tracking-widest text-slate-500 font-medium">Item</th>
                 <th class="text-left py-3 px-4 text-xs uppercase tracking-widest text-slate-500 font-medium hidden md:table-cell">Category</th>
                 <th class="text-left py-3 px-4 text-xs uppercase tracking-widest text-slate-500 font-medium hidden lg:table-cell">Location</th>
@@ -25,17 +25,17 @@
                 <th class="text-right py-3 px-4 text-xs uppercase tracking-widest text-slate-500 font-medium">Actions</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-white/5">
+        <tbody class="divide-y divide-slate-200">
             @forelse($items as $item)
-            <tr class="hover:bg-dark-700 transition-colors">
+            <tr class="hover:bg-light-warm transition-colors">
                 <td class="py-3 px-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-12 h-9 rounded overflow-hidden bg-dark-600 flex-shrink-0">
+                        <div class="w-12 h-9 rounded overflow-hidden bg-slate-100 flex-shrink-0">
                             <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}"
                                  class="w-full h-full object-cover">
                         </div>
                         <div>
-                            <div class="text-white font-medium leading-snug">{{ $item->title }}</div>
+                            <div class="text-dark-900 font-medium leading-snug">{{ $item->title }}</div>
                             <div class="text-slate-500 text-xs">{{ $item->slug }}</div>
                         </div>
                     </div>

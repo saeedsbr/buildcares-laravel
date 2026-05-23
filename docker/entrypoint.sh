@@ -25,7 +25,13 @@ fi
 # Run Laravel bootstrap commands (never exit on failure)
 php artisan storage:link --force 2>/dev/null || true
 php artisan migrate --force 2>/dev/null || true
+
+# Idempotent seeders: admin user (every deploy, supports password reset via env),
+# portfolio + services seed only on first run (preserves admin edits).
+php artisan db:seed --class=AdminUserSeeder --force 2>/dev/null || true
 php artisan db:seed --class=PortfolioSeeder --force 2>/dev/null || true
+php artisan db:seed --class=ServiceSeeder --force 2>/dev/null || true
+
 php artisan config:cache 2>/dev/null || true
 php artisan route:cache 2>/dev/null || true
 php artisan view:cache 2>/dev/null || true

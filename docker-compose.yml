@@ -31,6 +31,11 @@ services:
       MAIL_PASSWORD: ${MAIL_PASSWORD}
       MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS:-anwar@buildcares.com}
       MAIL_FROM_NAME: BuildCares
+
+      ADMIN_NAME: ${ADMIN_NAME:-Admin}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@buildcares.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme123}
+      ADMIN_PASSWORD_RESET: ${ADMIN_PASSWORD_RESET:-false}
     volumes:
       - storage_data:/var/www/html/storage/app/public
       - logs_data:/var/www/html/storage/logs

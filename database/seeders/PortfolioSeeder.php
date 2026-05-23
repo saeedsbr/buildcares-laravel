@@ -10,7 +10,10 @@ class PortfolioSeeder extends Seeder
 {
     public function run(): void
     {
-        PortfolioItem::truncate();
+        // Idempotent: skip on redeploy so admin edits persist.
+        if (PortfolioItem::query()->exists()) {
+            return;
+        }
 
         $items = [
 
