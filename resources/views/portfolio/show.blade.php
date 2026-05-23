@@ -83,28 +83,74 @@
 {{-- Cover image --}}
 <div style="background-color:#f8fafc;">
     <div class="max-w-7xl mx-auto px-6 py-8">
-        <div class="relative group inline-block w-full">
+        <div class="relative group">
             <img src="{{ Storage::url($item->cover_image) }}" alt="{{ $item->title }}"
                  class="lightbox-trigger w-full object-contain" style="max-height:620px; border:1px solid #e2e8f0; cursor:zoom-in;">
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style="background:rgba(0,0,0,0.08);">
+
+            {{-- Zoom hint (centred, fades in on hover) --}}
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style="background:rgba(0,0,0,0.06);">
                 <div class="flex items-center gap-2 px-4 py-2 text-sm font-semibold" style="background:rgba(255,255,255,0.95); color:#0f172a; border:1px solid #e2e8f0;">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                     Click to zoom
                 </div>
             </div>
+
+            {{-- Floating prev/next chevrons over the image --}}
+            @if($prev)
+            <a id="cover-prev" href="{{ route('portfolio.show', $prev->slug) }}"
+               class="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-200 opacity-80 hover:opacity-100 hover:scale-105 shadow-lg"
+               style="background:rgba(255,255,255,0.95); color:#0f172a; border:1px solid #e2e8f0;"
+               title="Previous: {{ $prev->title }}" aria-label="Previous project">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </a>
+            @endif
+
+            @if($next)
+            <a id="cover-next" href="{{ route('portfolio.show', $next->slug) }}"
+               class="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-200 opacity-80 hover:opacity-100 hover:scale-105 shadow-lg"
+               style="background:rgba(255,255,255,0.95); color:#0f172a; border:1px solid #e2e8f0;"
+               title="Next: {{ $next->title }}" aria-label="Next project">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </a>
+            @endif
         </div>
     </div>
 </div>
 
 {{-- Lightbox modal --}}
-<div id="lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.92);">
-    <button id="lightbox-close" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center transition-colors" style="color:#ffffff; background:rgba(255,255,255,0.12);" aria-label="Close">
+<div id="lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.92);"
+     data-prev-href="{{ $prev ? route('portfolio.show', $prev->slug) : '' }}"
+     data-next-href="{{ $next ? route('portfolio.show', $next->slug) : '' }}">
+    <button id="lightbox-close" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center transition-colors z-10" style="color:#ffffff; background:rgba(255,255,255,0.12);" aria-label="Close">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
+
+    {{-- Project label in top-left --}}
+    <div class="absolute top-5 left-5 z-10 pointer-events-none">
+        <div class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.5);">{{ $item->category_label }}</div>
+        <div class="text-sm font-semibold mt-0.5" style="color:#ffffff;">{{ $item->title }}</div>
+    </div>
+
+    {{-- Prev / Next inside the lightbox --}}
+    @if($prev)
+    <button id="lb-prev" type="button"
+            class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center transition-all duration-200 hover:scale-105 z-10"
+            style="background:rgba(255,255,255,0.12); color:#ffffff;" title="Previous: {{ $prev->title }}" aria-label="Previous project">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    @endif
+    @if($next)
+    <button id="lb-next" type="button"
+            class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center transition-all duration-200 hover:scale-105 z-10"
+            style="background:rgba(255,255,255,0.12); color:#ffffff;" title="Next: {{ $next->title }}" aria-label="Next project">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    @endif
+
     <div class="relative w-full h-full flex items-center justify-center overflow-hidden" id="lightbox-inner">
         <img id="lightbox-img" src="" alt="" class="select-none" style="max-width:100%; max-height:100%; object-fit:contain; transform-origin:center; transition:transform 0.2s ease; cursor:grab;">
     </div>
-    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-3">
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
         <button id="lb-zoom-out" class="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors" style="background:rgba(255,255,255,0.12); color:#ffffff;">−</button>
         <span id="lb-zoom-label" class="text-xs w-12 text-center" style="color:#94a3b8;">100%</span>
         <button id="lb-zoom-in" class="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors" style="background:rgba(255,255,255,0.12); color:#ffffff;">+</button>
@@ -328,6 +374,33 @@
     lbClose.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 
+    // Prev/Next inside lightbox — navigate to the prev/next project and re-open zoomed
+    function navigateZoomed(href) {
+        if (!href) return;
+        const url = new URL(href, location.origin);
+        url.searchParams.set('z', '1');
+        location.href = url.toString();
+    }
+    document.getElementById('lb-prev')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateZoomed(lightbox.dataset.prevHref);
+    });
+    document.getElementById('lb-next')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateZoomed(lightbox.dataset.nextHref);
+    });
+
+    // Auto-open the lightbox on page load if arriving from a "zoom-in next" click
+    if (new URLSearchParams(location.search).get('z') === '1') {
+        const cover = document.querySelector('.lightbox-trigger');
+        const src = cover?.dataset.src || cover?.src;
+        if (src) openLightbox(src);
+        // Clean the URL so a refresh doesn't keep re-opening
+        const clean = new URL(location.href);
+        clean.searchParams.delete('z');
+        history.replaceState(null, '', clean.toString());
+    }
+
     // Mouse wheel — zoom toward cursor
     lbInner.addEventListener('wheel', e => {
         e.preventDefault();
@@ -406,6 +479,8 @@
         if (e.key === '+' || e.key === '=')  zoomAt(c.x, c.y, scale + STEP);
         if (e.key === '-')                   zoomAt(c.x, c.y, scale - STEP);
         if (e.key === '0')                   reset();
+        if (e.key === 'ArrowLeft')           navigateZoomed(lightbox.dataset.prevHref);
+        if (e.key === 'ArrowRight')          navigateZoomed(lightbox.dataset.nextHref);
     });
 })();
 
