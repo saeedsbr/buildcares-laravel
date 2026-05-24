@@ -257,12 +257,6 @@ function buildHouseStages() {
     loft.add(loftFloor);
     loft.userData.targetOpacity = 0.95;
     stages.push(loft);
-    extensionLabels.push({
-        anchor: new THREE.Vector3(2.5, 3.4, -0.5),
-        text: 'LOFT CONVERSION',
-        color: '#10b981',
-        stageIndex: 6,
-    });
 
     // Stage 7: Double-storey side extension (extends +X)
     const sideExt = new THREE.Group();
@@ -285,12 +279,6 @@ function buildHouseStages() {
     });
     sideExt.userData.targetOpacity = 0.95;
     stages.push(sideExt);
-    extensionLabels.push({
-        anchor: new THREE.Vector3(4.5, 2.4, 1.5),
-        text: 'SIDE EXTENSION · 2-STOREY',
-        color: '#a855f7',
-        stageIndex: 7,
-    });
 
     // Stage 8: Single-storey rear extension (extends -Z)
     const rearExt = new THREE.Group();
@@ -310,12 +298,6 @@ function buildHouseStages() {
     });
     rearExt.userData.targetOpacity = 0.95;
     stages.push(rearExt);
-    extensionLabels.push({
-        anchor: new THREE.Vector3(0, 1.2, -3.5),
-        text: 'REAR EXTENSION · 1-STOREY',
-        color: '#f97316',
-        stageIndex: 8,
-    });
 
     return { stages, extensionLabels };
 }
