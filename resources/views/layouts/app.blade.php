@@ -27,7 +27,7 @@
                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
                         anwar@buildcares.com
                     </a>
-                    <a href="tel:+447586750755" class="flex items-center gap-2 transition-colors hover:text-blue-600">
+                        <a href="https://wa.me/{{ config('contact.whatsapp_number') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 transition-colors hover:text-blue-600">
                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
                         +44 7586 750755
                     </a>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4 flex-shrink-0" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-                            <a href="tel:+447586750755" class="hover:text-white transition-colors">+44 7586 750755</a>
+                                <a href="https://wa.me/{{ config('contact.whatsapp_number') }}" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">+44 7586 750755</a>
                         </div>
                         <div class="flex items-center gap-3">
                             <svg class="w-4 h-4 flex-shrink-0" style="color:#2563eb;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>

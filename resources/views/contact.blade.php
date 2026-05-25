@@ -56,7 +56,7 @@
                         </div>
                         <div>
                             <div class="text-xs font-bold uppercase tracking-widest mb-1" style="color:#94a3b8;">Phone</div>
-                            <a href="tel:+447586750755" class="text-sm font-semibold transition-colors hover:text-blue-600" style="color:#1e293b;">+44 7586 750755</a>
+                            <a href="https://wa.me/{{ config('contact.whatsapp_number') }}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold transition-colors hover:text-blue-600" style="color:#1e293b;">+44 7586 750755</a>
                         </div>
                     </div>
                     <div class="flex items-start gap-4 bg-white p-4 border" style="border-color:#e2e8f0; border-left:2px solid #2563eb;">
