@@ -220,6 +220,11 @@
                         {{-- Dark gradient overlay --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
 
+                        {{-- Centered title overlay --}}
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none px-4">
+                            <h3 class="text-center text-2xl sm:text-3xl md:text-2xl lg:text-3xl font-extrabold text-white drop-shadow-lg" style="letter-spacing:0.02em;">{{ $design['title'] }}</h3>
+                        </div>
+
                         {{-- Badge --}}
                         <div class="absolute top-4 left-4 flex items-center gap-2">
                             <span class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white"
@@ -281,6 +286,11 @@
 
                         {{-- Dark gradient overlay --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+
+                        {{-- Centered title overlay --}}
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none px-4">
+                            <h3 class="text-center text-2xl sm:text-3xl md:text-2xl lg:text-3xl font-extrabold text-white drop-shadow-lg" style="letter-spacing:0.02em;">{{ $design['title'] }}</h3>
+                        </div>
 
                         {{-- Badge --}}
                         <div class="absolute top-4 left-4 flex items-center gap-2">
