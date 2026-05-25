@@ -353,26 +353,35 @@
 {{-- ═══ WHAT WE DEAL IN ═══ --}}
 <section class="section-padding" style="background-color:#f8fafc;">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
+        @php
+        $serviceShowcase = [
+            ['title' => 'Loft Conversion', 'img' => '/images/house-designs/loft-conversion.png', 'slug' => 'loft-conversion'],
+            ['title' => 'Double Storey Extension', 'img' => '/images/house-designs/double-storey.png', 'slug' => 'extension'],
+            ['title' => 'Single Storey Rear Extension', 'img' => '/images/house-designs/rear-extension.png', 'slug' => 'extension'],
+            ['title' => 'Garage Conversion', 'img' => '/images/house-designs/garage-conversion.png', 'slug' => 'garage-conversion'],
+            ['title' => 'New Build', 'img' => '/images/house-designs/new-build.png', 'slug' => 'new-build'],
+            ['title' => 'Outbuilding & Garden Room', 'img' => '/images/house-designs/outbuilding.png', 'slug' => 'outbuilding'],
+        ];
+        @endphp
+
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
             <div>
                 <div class="section-label reveal">Specialisation</div>
                 <h2 class="section-title reveal">What We Deliver</h2>
                 <p class="leading-relaxed mb-8 reveal" style="color:#64748b;">
                     As specialist CAD technicians and architectural designers, we produce drawings that planners and builders can rely on — precise, compliant, and delivered fast.
                 </p>
-                <div class="space-y-3 mb-8">
-                    @foreach([['Planning Drawings','Full planning application packages including site plans, floor plans, elevations and sections.'],['Building Control','Detailed technical drawings meeting building regulations for structural and compliance approval.'],['3D Modelling','Photorealistic SketchUp and Revit models for presentations and client approvals.'],['Design Modifications','Design development and iteration — we collaborate to refine until your vision is realised.']] as $i => [$title, $desc])
-                    <div class="card-light p-5 reveal" style="animation-delay:{{ $i * 0.08 }}s;">
-                        <div class="flex items-start gap-3">
-                            <div class="w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5" style="background:#2563eb;">
-                                <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm mb-1" style="color:#0f172a;">{{ $title }}</h4>
-                                <p class="text-xs leading-relaxed" style="color:#64748b;">{{ $desc }}</p>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    @foreach($serviceShowcase as $i => $item)
+                    <a href="{{ route('portfolio.index', ['category' => $item['slug']]) }}" class="group reveal block overflow-hidden border bg-white" style="animation-delay:{{ $i * 0.08 }}s; border-color:#e2e8f0;">
+                        <div class="relative aspect-[4/3] overflow-hidden">
+                            <img src="{{ $item['img'] }}" alt="{{ $item['title'] }}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                            <div class="absolute inset-0 flex items-end p-4">
+                                <h4 class="text-sm font-bold leading-tight text-white drop-shadow-lg">{{ $item['title'] }}</h4>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     @endforeach
                 </div>
             </div>
