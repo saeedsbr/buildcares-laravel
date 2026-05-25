@@ -238,27 +238,12 @@ function buildHouseStages() {
     // Each extension stage exposes a labelAnchor so the HTML overlay can pin a tag onto it.
     const extensionLabels = [];
 
-    // Stage 6: Loft conversion — rear dormer on the +X roof slope
-    const loft = new THREE.Group();
-    const dormer = solidEdges(new THREE.BoxGeometry(0.8, 0.7, 0.9), LOFT_C, 0);
-    dormer.position.set(2.05, 2.95, -0.5);
-    loft.add(dormer);
-    // Dormer window face (facing +X)
-    const dormerWin = solidEdges(new THREE.BoxGeometry(0.02, 0.45, 0.6), LOFT_C, 0);
-    dormerWin.position.set(2.46, 2.95, -0.5);
-    loft.add(dormerWin);
-    // Internal "new loft floor" line — dashed, suggesting added storey within roof.
-    // Sized to fit under the pitched roof envelope at y=2.6.
-    const loftFloor = dashedEdges(
-        new THREE.PlaneGeometry(3.0, 2.6).rotateX(-Math.PI / 2),
-        LOFT_C, 0, 0.12, 0.08
-    );
-    loftFloor.position.y = 2.6;
-    loft.add(loftFloor);
-    loft.userData.targetOpacity = 0.95;
-    stages.push(loft);
+    // NOTE: removed the separate loft conversion stage to present the
+    // double-storey side extension as the primary visible modification
+    // in the hero. If you want the loft returned later, re-add the
+    // loft group creation here.
 
-    // Stage 7: Double-storey side extension (extends +X)
+    // Stage 6: Double-storey side extension (extends +X)
     const sideExt = new THREE.Group();
     const sideBox = solidEdges(new THREE.BoxGeometry(2.5, 2.2, 3), SIDE_C, 0);
     sideBox.position.set(3.25, 1.1, 0);
@@ -280,7 +265,7 @@ function buildHouseStages() {
     sideExt.userData.targetOpacity = 0.95;
     stages.push(sideExt);
 
-    // Stage 8: Single-storey rear extension (extends -Z)
+    // Stage 7: Single-storey rear extension (extends -Z)
     const rearExt = new THREE.Group();
     const rearBox = solidEdges(new THREE.BoxGeometry(4, 1.0, 2), REAR_C, 0);
     rearBox.position.set(0, 0.5, -2.5);
@@ -514,11 +499,10 @@ export function initHeroHouse(container) {
     //   0.0 → plate     0.4 → walls    0.9 → roof
     //   1.4 → openings  1.9 → hidden   2.2 → snap markers
     //   2.5 → dimensions
-    //   3.0 → loft conversion
-    //   3.5 → side extension
-    //   4.0 → rear extension
+    //   3.0 → side extension
+    //   3.5 → rear extension
     //   4.6 → rotation kicks in
-    const stageStarts = [0.0, 0.4, 0.9, 1.4, 1.9, 2.2, 3.0, 3.5, 4.0];
+    const stageStarts = [0.0, 0.4, 0.9, 1.4, 1.9, 2.2, 3.0, 3.5];
     const stageDur = 0.55;
     const dimStart = 2.5;
     const dimDur = 0.6;
@@ -586,7 +570,7 @@ export function initHeroHouse(container) {
             }
 
             // Rotation only kicks in after structure + extensions are fully drawn
-            const spinStart = 4.6;
+            const spinStart = 4.0;
             const spinT = Math.max(0, t - spinStart);
             houseGroup.rotation.y = spinT * 0.12;
 
