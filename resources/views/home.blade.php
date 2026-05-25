@@ -122,42 +122,218 @@
 </section>
 
 
-{{-- ═══ SERVICES ═══ --}}
-<section class="section-padding" style="background-color:#f8fafc;">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-14">
+{{-- ═══ HOUSE DESIGNS ═══ --}}
+<section class="section-padding relative overflow-hidden" style="background-color:#0f172a;">
+    {{-- Subtle blueprint grid background --}}
+    <div class="absolute inset-0 opacity-[0.04] pointer-events-none">
+        <svg class="w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <pattern id="hd-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563eb" stroke-width="0.5"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hd-grid)"/>
+        </svg>
+    </div>
+    <div class="absolute top-0 left-0 w-[600px] h-[600px] pointer-events-none" style="background:radial-gradient(circle at 20% 30%, rgba(37,99,235,0.08) 0%, transparent 65%);"></div>
+    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] pointer-events-none" style="background:radial-gradient(circle at 80% 80%, rgba(37,99,235,0.06) 0%, transparent 65%);"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
             <div class="section-label justify-center reveal">Our Expertise</div>
-            <h2 class="section-title reveal">Services We Offer</h2>
-            <p class="leading-relaxed max-w-xl mx-auto reveal" style="color:#64748b;">Comprehensive architectural drawing and CAD services tailored for UK planning and building control requirements.</p>
+            <h2 class="section-title-light reveal">House Designs We Specialise In</h2>
+            <p class="leading-relaxed max-w-2xl mx-auto reveal" style="color:#94a3b8;">From loft conversions to full new builds — explore the architectural design services we deliver with precision and care across the UK.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px" style="background-color:#e2e8f0;">
-            @php
-            $services = [
-                ['img'=>'portfolio/cat-garage-conversion.jpg','title'=>'Garage Conversion','desc'=>'Transform your garage into valuable living space with detailed planning and building control drawings.','slug'=>'garage-conversion'],
-                ['img'=>'portfolio/cat-loft-conversion.jpg','title'=>'Loft Conversion','desc'=>'Unlock your loft\'s potential with dormer or hip-to-gable conversions, fully drawn to approval standard.','slug'=>'loft-conversion'],
-                ['img'=>'portfolio/cat-extension.jpg','title'=>'Extensions','desc'=>'Single, double or wrap-around extensions designed to maximise space and comply with planning regulations.','slug'=>'extension'],
-                ['img'=>'portfolio/cat-new-build.jpg','title'=>'New Build','desc'=>'Complete architectural packages for new residential builds from concept through to planning submission.','slug'=>'new-build'],
-                ['img'=>'portfolio/cat-outbuilding.jpg','title'=>'Outbuilding','desc'=>'Garden rooms, home offices, studios and annexes — full drawings for permitted development or planning.','slug'=>'outbuilding'],
-                ['img'=>'portfolio/cat-internal-changes.jpg','title'=>'Internal Changes','desc'=>'Structural internal alterations, wall removals and reconfigurations with precise building control drawings.','slug'=>'internal-changes'],
-            ];
-            @endphp
+        @php
+        $houseDesigns = [
+            [
+                'img'    => '/images/house-designs/loft-conversion.png',
+                'title'  => 'Loft Conversion',
+                'badge'  => 'Popular',
+                'badgeColor' => '#10b981',
+                'desc'   => 'Unlock your loft\'s potential with dormer or hip-to-gable conversions, fully drawn to approval standard.',
+                'slug'   => 'loft-conversion',
+                'highlights' => ['Dormer & Velux', 'Hip-to-Gable', 'Planning Approved', 'Extra Bedroom'],
+            ],
+            [
+                'img'    => '/images/house-designs/double-storey.png',
+                'title'  => 'Double Storey Extension',
+                'badge'  => 'Premium',
+                'badgeColor' => '#a855f7',
+                'desc'   => 'Expand both floors outward with a perfectly matched two-storey side or rear extension.',
+                'slug'   => 'extension',
+                'highlights' => ['Two-Storey', 'Side & Rear', 'Max Space', 'Building Regs'],
+            ],
+            [
+                'img'    => '/images/house-designs/rear-extension.png',
+                'title'  => 'Single Storey Rear Extension',
+                'badge'  => 'Trending',
+                'badgeColor' => '#f97316',
+                'desc'   => 'Open up your ground floor with a stunning single-storey extension featuring bi-fold doors and skylights.',
+                'slug'   => 'extension',
+                'highlights' => ['Bi-fold Doors', 'Open Plan', 'Skylights', 'Kitchen Diner'],
+            ],
+            [
+                'img'    => '/images/house-designs/garage-conversion.png',
+                'title'  => 'Garage Conversion',
+                'badge'  => 'Best Value',
+                'badgeColor' => '#06b6d4',
+                'desc'   => 'Transform your garage into valuable living space with detailed planning and building control drawings.',
+                'slug'   => 'garage-conversion',
+                'highlights' => ['Cost Effective', 'Quick Build', 'No Planning Needed', 'Extra Room'],
+            ],
+            [
+                'img'    => '/images/house-designs/new-build.png',
+                'title'  => 'New Build',
+                'badge'  => 'Full Package',
+                'badgeColor' => '#2563eb',
+                'desc'   => 'Complete architectural packages for new residential builds from concept through to planning submission.',
+                'slug'   => 'new-build',
+                'highlights' => ['Full Design', 'Planning Pack', 'Building Control', 'Bespoke'],
+            ],
+            [
+                'img'    => '/images/house-designs/outbuilding.png',
+                'title'  => 'Outbuilding & Garden Room',
+                'badge'  => 'Lifestyle',
+                'badgeColor' => '#84cc16',
+                'desc'   => 'Garden rooms, home offices, studios and annexes — full drawings for permitted development or planning.',
+                'slug'   => 'outbuilding',
+                'highlights' => ['Home Office', 'Garden Studio', 'Annexe', 'Permitted Dev'],
+            ],
+        ];
+        @endphp
 
-            @foreach($services as $i => $svc)
-            <a href="{{ route('portfolio.index', ['category' => $svc['slug']]) }}" class="group reveal bg-white block overflow-hidden" style="animation-delay:{{ $i * 0.07 }}s;">
-                <div class="overflow-hidden" style="height:200px;">
-                    <img src="{{ Storage::url($svc['img']) }}" alt="{{ $svc['title'] }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-                <div class="p-6">
-                    <h3 class="font-bold text-base mb-2" style="color:#0f172a;">{{ $svc['title'] }}</h3>
-                    <p class="text-sm leading-relaxed mb-4" style="color:#64748b;">{{ $svc['desc'] }}</p>
-                    <span class="text-xs font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all" style="color:#2563eb;">
-                        View Projects
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                    </span>
+        {{-- Top row: 3 large cards --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+            @foreach(array_slice($houseDesigns, 0, 3) as $i => $design)
+            <a href="{{ route('portfolio.index', ['category' => $design['slug']]) }}"
+               class="house-design-card group block reveal" style="animation-delay:{{ $i * 0.1 }}s;">
+                <div class="relative overflow-hidden border transition-all duration-500 group-hover:border-blue-500/40 group-hover:shadow-2xl group-hover:shadow-blue-500/10 group-hover:-translate-y-1"
+                     style="background:#1e293b; border-color:rgba(255,255,255,0.06);">
+
+                    {{-- Image --}}
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="{{ $design['img'] }}" alt="{{ $design['title'] }}" loading="lazy"
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+
+                        {{-- Dark gradient overlay --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+
+                        {{-- Badge --}}
+                        <div class="absolute top-4 left-4 flex items-center gap-2">
+                            <span class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white"
+                                  style="background:{{ $design['badgeColor'] }};">
+                                {{ $design['badge'] }}
+                            </span>
+                        </div>
+
+                        {{-- Sheet number --}}
+                        <div class="absolute top-4 right-4 text-right pointer-events-none">
+                            <div class="text-[9px] font-bold" style="color:rgba(255,255,255,0.5);">BuildCares</div>
+                            <div class="text-[8px]" style="color:rgba(255,255,255,0.3);">Design {{ sprintf('%02d', $i + 1) }}</div>
+                        </div>
+
+                        {{-- Highlights / tags overlay at bottom of image --}}
+                        <div class="absolute bottom-3 left-4 right-4 flex flex-wrap gap-1.5">
+                            @foreach($design['highlights'] as $hl)
+                            <span class="px-2 py-1 text-[9px] font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm"
+                                  style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.15);">
+                                {{ $hl }}
+                            </span>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2 transition-colors group-hover:text-blue-400" style="color:#f8fafc;">
+                            {{ $design['title'] }}
+                        </h3>
+                        <p class="text-sm leading-relaxed mb-4 line-clamp-2" style="color:#94a3b8;">
+                            {{ $design['desc'] }}
+                        </p>
+                        <div class="flex items-center justify-between pt-3" style="border-top:1px solid rgba(255,255,255,0.06);">
+                            <span class="text-[10px] uppercase tracking-[0.12em] font-medium" style="color:#475569;">Planning Ready</span>
+                            <span class="text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 group-hover:gap-2.5 transition-all" style="color:#2563eb;">
+                                View Projects
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </a>
             @endforeach
+        </div>
+
+        {{-- Bottom row: 3 cards --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            @foreach(array_slice($houseDesigns, 3, 3) as $i => $design)
+            <a href="{{ route('portfolio.index', ['category' => $design['slug']]) }}"
+               class="house-design-card group block reveal" style="animation-delay:{{ ($i + 3) * 0.1 }}s;">
+                <div class="relative overflow-hidden border transition-all duration-500 group-hover:border-blue-500/40 group-hover:shadow-2xl group-hover:shadow-blue-500/10 group-hover:-translate-y-1"
+                     style="background:#1e293b; border-color:rgba(255,255,255,0.06);">
+
+                    {{-- Image --}}
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="{{ $design['img'] }}" alt="{{ $design['title'] }}" loading="lazy"
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+
+                        {{-- Dark gradient overlay --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+
+                        {{-- Badge --}}
+                        <div class="absolute top-4 left-4 flex items-center gap-2">
+                            <span class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white"
+                                  style="background:{{ $design['badgeColor'] }};">
+                                {{ $design['badge'] }}
+                            </span>
+                        </div>
+
+                        {{-- Sheet number --}}
+                        <div class="absolute top-4 right-4 text-right pointer-events-none">
+                            <div class="text-[9px] font-bold" style="color:rgba(255,255,255,0.5);">BuildCares</div>
+                            <div class="text-[8px]" style="color:rgba(255,255,255,0.3);">Design {{ sprintf('%02d', $i + 4) }}</div>
+                        </div>
+
+                        {{-- Highlights / tags overlay at bottom of image --}}
+                        <div class="absolute bottom-3 left-4 right-4 flex flex-wrap gap-1.5">
+                            @foreach($design['highlights'] as $hl)
+                            <span class="px-2 py-1 text-[9px] font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm"
+                                  style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.15);">
+                                {{ $hl }}
+                            </span>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2 transition-colors group-hover:text-blue-400" style="color:#f8fafc;">
+                            {{ $design['title'] }}
+                        </h3>
+                        <p class="text-sm leading-relaxed mb-4 line-clamp-2" style="color:#94a3b8;">
+                            {{ $design['desc'] }}
+                        </p>
+                        <div class="flex items-center justify-between pt-3" style="border-top:1px solid rgba(255,255,255,0.06);">
+                            <span class="text-[10px] uppercase tracking-[0.12em] font-medium" style="color:#475569;">Planning Ready</span>
+                            <span class="text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 group-hover:gap-2.5 transition-all" style="color:#2563eb;">
+                                View Projects
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+        </div>
+
+        {{-- Bottom CTA row --}}
+        <div class="text-center mt-12 reveal">
+            <a href="{{ route('portfolio.index') }}" class="btn-outline-gold-dark inline-flex items-center gap-2 text-sm">
+                View All Projects
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
         </div>
     </div>
 </section>
