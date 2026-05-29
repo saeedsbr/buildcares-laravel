@@ -148,7 +148,7 @@
         @php
         $houseDesigns = [
             [
-                'img'    => '/images/house-designs/loft-conversion.png',
+                'img'    => Storage::url('portfolio/cat-loft-conversion.jpg'),
                 'title'  => 'Loft Conversion',
                 'badge'  => 'Popular',
                 'badgeColor' => '#10b981',
@@ -157,7 +157,7 @@
                 'highlights' => ['Dormer & Velux', 'Hip-to-Gable', 'Planning Approved', 'Extra Bedroom'],
             ],
             [
-                'img'    => '/images/house-designs/double-storey.png',
+                'img'    => Storage::url('portfolio/cat-extension.jpg'),
                 'title'  => 'Double Storey Extension',
                 'badge'  => 'Premium',
                 'badgeColor' => '#a855f7',
@@ -166,7 +166,7 @@
                 'highlights' => ['Two-Storey', 'Side & Rear', 'Max Space', 'Building Regs'],
             ],
             [
-                'img'    => '/images/house-designs/rear-extension.png',
+                'img'    => Storage::url('portfolio/cat-internal-changes.jpg'),
                 'title'  => 'Single Storey Rear Extension',
                 'badge'  => 'Trending',
                 'badgeColor' => '#f97316',
@@ -175,7 +175,7 @@
                 'highlights' => ['Bi-fold Doors', 'Open Plan', 'Skylights', 'Kitchen Diner'],
             ],
             [
-                'img'    => '/images/house-designs/garage-conversion.png',
+                'img'    => Storage::url('portfolio/cat-garage-conversion.jpg'),
                 'title'  => 'Garage Conversion',
                 'badge'  => 'Best Value',
                 'badgeColor' => '#06b6d4',
@@ -184,7 +184,7 @@
                 'highlights' => ['Cost Effective', 'Quick Build', 'No Planning Needed', 'Extra Room'],
             ],
             [
-                'img'    => '/images/house-designs/new-build.png',
+                'img'    => Storage::url('portfolio/cat-new-build.jpg'),
                 'title'  => 'New Build',
                 'badge'  => 'Full Package',
                 'badgeColor' => '#2563eb',
@@ -193,7 +193,7 @@
                 'highlights' => ['Full Design', 'Planning Pack', 'Building Control', 'Bespoke'],
             ],
             [
-                'img'    => '/images/house-designs/outbuilding.png',
+                'img'    => Storage::url('portfolio/cat-outbuilding.jpg'),
                 'title'  => 'Outbuilding & Garden Room',
                 'badge'  => 'Lifestyle',
                 'badgeColor' => '#84cc16',
