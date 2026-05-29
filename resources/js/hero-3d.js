@@ -171,10 +171,7 @@ function buildHouseStages() {
         new THREE.Vector3(0, 3.6,  1.575),
     ], PRIMARY, 0));
 
-    // Chimney
-    const chimney = solidEdges(new THREE.BoxGeometry(0.4, 1.2, 0.4), PRIMARY, 0);
-    chimney.position.set(1.1, 3.2, -0.3);
-    roof.add(chimney);
+    // Chimney removed — not shown on front elevation per design request
 
     roof.userData.targetOpacity = 0.95;
     stages.push(roof);
