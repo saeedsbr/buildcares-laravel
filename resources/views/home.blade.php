@@ -166,7 +166,7 @@
                 'highlights' => ['Two-Storey', 'Side & Rear', 'Max Space', 'Building Regs'],
             ],
             [
-                'img'    => Storage::url('portfolio/cat-internal-changes.jpg'),
+                'img'    => '/images/house-designs/rear-extension.png',
                 'title'  => 'Single Storey Rear Extension',
                 'badge'  => 'Trending',
                 'badgeColor' => '#f97316',
