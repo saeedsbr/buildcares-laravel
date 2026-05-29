@@ -166,7 +166,7 @@
                 'highlights' => ['Two-Storey', 'Side & Rear', 'Max Space', 'Building Regs'],
             ],
             [
-                'img'    => '/images/house-designs/rear-extension.png',
+                'img'    => Storage::url('portfolio/single-storey-rear-extension-1.png'),
                 'title'  => 'Single Storey Rear Extension',
                 'badge'  => 'Trending',
                 'badgeColor' => '#f97316',
@@ -357,8 +357,8 @@
         $serviceShowcase = [
             ['title' => 'Loft Conversion', 'img' => '/images/house-designs/loft-conversion.png', 'slug' => 'loft-conversion'],
             ['title' => 'Double Storey Extension', 'img' => '/images/house-designs/double-storey.png', 'slug' => 'extension'],
-            ['title' => 'Single Storey Rear Extension', 'img' => '/images/house-designs/rear-extension.png', 'slug' => 'extension'],
-            ['title' => 'Garage Conversion', 'img' => '/images/house-designs/garage-conversion.png', 'slug' => 'garage-conversion'],
+            ['title' => 'Single Storey Rear Extension', 'img' => Storage::url('portfolio/single-storey-rear-extension-1.png'), 'slug' => 'extension'],
+            ['title' => 'Garage Conversion', 'img' => Storage::url('portfolio/cat-garage-conversion.jpg'), 'slug' => 'garage-conversion'],
             ['title' => 'New Build', 'img' => '/images/house-designs/new-build.png', 'slug' => 'new-build'],
             ['title' => 'Outbuilding & Garden Room', 'img' => '/images/house-designs/outbuilding.png', 'slug' => 'outbuilding'],
         ];
